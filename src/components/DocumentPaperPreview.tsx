@@ -314,8 +314,8 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </h1>
         </div>
 
-        {/* Outer Box wrapping all 5 sections (No outer border as requested!) */}
-        <div className="p-0 bg-white mb-2 flex flex-col justify-start gap-3">
+        {/* Outer Border Box wrapping all 5 sections */}
+        <div className="border border-black p-3.5 bg-white mb-2 flex flex-col justify-start gap-3">
           
           {/* Section 1: 서비스 대상자 */}
           <div>
