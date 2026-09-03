@@ -1,5 +1,7 @@
 import { ResignationFormData } from '../types';
 import { sampleSampleFormData } from '../data/sampleData';
+import { db } from './firebase';
+import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 
 const SUBMISSIONS_KEY = 'suwon_rehab_resignation_submissions_v1';
 const DRAFT_KEY = 'suwon_rehab_resignation_draft_v1';
@@ -20,15 +22,16 @@ export const loadSubmissions = (): ResignationFormData[] => {
   }
 };
 
-export const saveSubmission = (form: ResignationFormData): void => {
+export const saveSubmission = async (form: ResignationFormData): Promise<void> => {
+  const updatedForm: ResignationFormData = {
+    ...form,
+    status: 'submitted',
+    submittedAt: form.submittedAt || new Date().toISOString(),
+  };
+
   try {
     const list = loadSubmissions();
     const existingIndex = list.findIndex((item) => item.id === form.id);
-    const updatedForm: ResignationFormData = {
-      ...form,
-      status: 'submitted',
-      submittedAt: form.submittedAt || new Date().toISOString(),
-    };
 
     let nextList: ResignationFormData[];
     if (existingIndex >= 0) {
@@ -41,27 +44,48 @@ export const saveSubmission = (form: ResignationFormData): void => {
     // Clear current draft
     localStorage.removeItem(DRAFT_KEY);
   } catch (err) {
-    console.error('Failed to save submission:', err);
+    console.error('Failed to save submission to localStorage:', err);
+  }
+
+  // Sync to Firestore
+  try {
+    await setDoc(doc(db, 'submissions', updatedForm.id), updatedForm);
+  } catch (err) {
+    console.error('Failed to save submission to Firestore:', err);
   }
 };
 
-export const updateSubmissionInStorage = (updated: ResignationFormData): void => {
+export const updateSubmissionInStorage = async (updated: ResignationFormData): Promise<void> => {
   try {
     const list = loadSubmissions();
     const nextList = list.map((item) => (item.id === updated.id ? updated : item));
     localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(nextList));
   } catch (err) {
-    console.error('Failed to update submission:', err);
+    console.error('Failed to update submission in localStorage:', err);
+  }
+
+  // Sync to Firestore
+  try {
+    await setDoc(doc(db, 'submissions', updated.id), updated);
+  } catch (err) {
+    console.error('Failed to update submission in Firestore:', err);
   }
 };
 
-export const deleteSubmissionFromStorage = (id: string): void => {
+export const deleteSubmissionFromStorage = async (id: string): Promise<void> => {
   try {
     const list = loadSubmissions();
     const nextList = list.filter((item) => item.id !== id);
     localStorage.setItem(SUBMISSIONS_KEY, JSON.stringify(nextList));
   } catch (err) {
-    console.error('Failed to delete submission:', err);
+    console.error('Failed to delete submission from localStorage:', err);
+  }
+
+  // Sync to Firestore
+  try {
+    await deleteDoc(doc(db, 'submissions', id));
+  } catch (err) {
+    console.error('Failed to delete submission from Firestore:', err);
   }
 };
 

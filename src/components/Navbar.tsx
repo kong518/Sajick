@@ -108,17 +108,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              id="fill-sample-btn"
-              onClick={onFillSample}
-              className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-400/40 rounded text-xs font-bold flex items-center gap-1 shadow-xs transition"
-              title="예시 데이터를 자동으로 입력하여 바로 확인해볼 수 있습니다."
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span className="hidden sm:inline">예시 데이터</span>
-            </button>
-
-            <button
-              type="button"
               id="reset-form-btn"
               onClick={onReset}
               className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition"

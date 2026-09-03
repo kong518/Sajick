@@ -2,10 +2,6 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ResignationFormData } from '../types';
 
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { ResignationFormData } from '../types';
-
 export const directPrint = () => {
   try {
     window.print();

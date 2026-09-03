@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ResignationFormData } from '../types';
 import { SuwonWelfareLogo } from './SuwonWelfareLogo';
 
@@ -29,6 +29,35 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
   data,
   page = 'all',
 }) => {
+  const [containerWidth, setContainerWidth] = useState<number>(800);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        setContainerWidth(entry.contentRect.width || 800);
+      }
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const scale = containerWidth < 826 ? Math.max(0.3, (containerWidth - 16) / 794) : 1;
+  const pageScaleStyle = {
+    '--page-scale': scale,
+    '--scaled-width': `${794 * scale}px`,
+    '--scaled-height': `${1123 * scale}px`,
+  } as React.CSSProperties;
+
+  const wrapResponsive = (pageEl: React.ReactNode) => (
+    <div className="responsive-page-scale-wrapper" style={pageScaleStyle}>
+      <div className="responsive-page-scale-content">
+        {pageEl}
+      </div>
+    </div>
+  );
+
   const resDate = formatDateKo(data.resignationDate);
   const formDate = formatDateKo(data.formDate);
   const consentDate = formatDateKo(data.consentDate);
@@ -423,64 +452,73 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Signatures: 인계자, 인수자, 확인자 in 3 equal columns with normal weight & neat spacing */}
-          <div className="grid grid-cols-3 gap-8 text-xs sm:text-sm font-serif font-normal px-2 my-4">
+          <div className="grid grid-cols-3 gap-3 md:gap-8 text-xs sm:text-sm font-serif font-normal px-1 md:px-2 my-4">
             {/* 인계자 */}
-            <div className="flex items-center justify-between">
-              <span className="text-slate-900 tracking-wider">인계자</span>
-              <span className="text-slate-900 tracking-wider mx-auto">
-                {data.handoverData?.handoverPersonName || data.name || ''}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7">
-                <span className="text-slate-800 font-serif text-xs select-none">(인)</span>
-                {(data.handoverData?.handoverSignature || data.applicantSignature) && (
-                  <img
-                    src={data.handoverData?.handoverSignature || data.applicantSignature}
-                    alt="인계자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+            <div className="flex flex-col items-center justify-center text-center space-y-1 bg-slate-50/30 p-2 rounded border border-slate-100">
+              <span className="text-slate-900 font-bold tracking-wider">인계자</span>
+              <span className="text-[10px] text-slate-500 font-sans leading-none">(퇴사 활동지원사)</span>
+              <div className="flex items-center justify-center gap-1 mt-1.5 flex-wrap">
+                <span className="text-slate-900 font-medium tracking-wide">
+                  {data.handoverData?.handoverPersonName || data.name || ''}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-8 h-6 shrink-0">
+                  <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
+                  {(data.handoverData?.handoverSignature || data.applicantSignature) && (
+                    <img
+                      src={data.handoverData?.handoverSignature || data.applicantSignature}
+                      alt="인계자 서명"
+                      className="absolute inset-0 m-auto max-h-5 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
             </div>
 
             {/* 인수자 */}
-            <div className="flex items-center justify-between">
-              <span className="text-slate-900 tracking-wider">인수자</span>
-              <span className="text-slate-900 tracking-wider mx-auto">
-                {data.handoverData?.takeoverPersonName || '전담관리인력'}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7">
-                <span className="text-slate-800 font-serif text-xs select-none">(인)</span>
-                {data.handoverData?.takeoverSignature && (
-                  <img
-                    src={data.handoverData.takeoverSignature}
-                    alt="인수자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+            <div className="flex flex-col items-center justify-center text-center space-y-1 bg-slate-50/30 p-2 rounded border border-slate-100">
+              <span className="text-slate-900 font-bold tracking-wider">인수자</span>
+              <span className="text-[10px] text-slate-500 font-sans leading-none">(전담관리/후임자)</span>
+              <div className="flex items-center justify-center gap-1 mt-1.5 flex-wrap">
+                <span className="text-slate-900 font-medium tracking-wide">
+                  {data.handoverData?.takeoverPersonName || '전담관리인력'}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-8 h-6 shrink-0">
+                  <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
+                  {data.handoverData?.takeoverSignature && (
+                    <img
+                      src={data.handoverData.takeoverSignature}
+                      alt="인수자 서명"
+                      className="absolute inset-0 m-auto max-h-5 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
             </div>
 
             {/* 확인자 */}
-            <div className="flex items-center justify-between">
-              <span className="text-slate-900 tracking-wider">확인자</span>
-              <span className="text-slate-900 tracking-wider mx-auto">
-                {data.handoverData?.verifierName || data.managerApproval?.teamLeaderName || '팀장'}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7">
-                <span className="text-slate-800 font-serif text-xs select-none">(인)</span>
-                {(data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature) && (
-                  <img
-                    src={data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature}
-                    alt="확인자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+            <div className="flex flex-col items-center justify-center text-center space-y-1 bg-slate-50/30 p-2 rounded border border-slate-100">
+              <span className="text-slate-900 font-bold tracking-wider">확인자</span>
+              <span className="text-[10px] text-slate-500 font-sans leading-none">(기관 담당 팀장)</span>
+              <div className="flex items-center justify-center gap-1 mt-1.5 flex-wrap">
+                <span className="text-slate-900 font-medium tracking-wide">
+                  {data.handoverData?.verifierName || data.managerApproval?.teamLeaderName || '팀장'}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-8 h-6 shrink-0">
+                  <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
+                  {(data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature) && (
+                    <img
+                      src={data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature}
+                      alt="확인자 서명"
+                      className="absolute inset-0 m-auto max-h-5 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -495,10 +533,10 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
   );
 
   return (
-    <div className="print-container space-y-12 print:space-y-0">
-      {(page === 'all' || page === 'resignation' || (page as number | string) === 1 || page === '1') && renderPage1()}
-      {(page === 'all' || page === 'resignation' || (page as number | string) === 2 || page === '2') && renderPage2()}
-      {(page === 'all' || (page as number | string) === 3 || page === '3') && renderPage3()}
+    <div ref={containerRef} className="print-container w-full space-y-12 print:space-y-0">
+      {(page === 'all' || page === 'resignation' || (page as number | string) === 1 || page === '1') && wrapResponsive(renderPage1())}
+      {(page === 'all' || page === 'resignation' || (page as number | string) === 2 || page === '2') && wrapResponsive(renderPage2())}
+      {(page === 'all' || (page as number | string) === 3 || page === '3') && wrapResponsive(renderPage3())}
     </div>
   );
 };

@@ -19,6 +19,8 @@ import { DocumentPaperPreview } from './components/DocumentPaperPreview';
 import { AdminSubmissionList } from './components/AdminSubmissionList';
 import { SubmissionSuccessModal } from './components/SubmissionSuccessModal';
 import { printDocuments, exportToPdf } from './utils/pdfExport';
+import { collection, onSnapshot, query } from 'firebase/firestore';
+import { db } from './utils/firebase';
 import {
   FileEdit,
   FileSignature,
@@ -65,6 +67,37 @@ export default function App() {
       saveDraft(formData);
     }
   }, [formData]);
+
+  // Subscribe to real-time Firestore submissions
+  useEffect(() => {
+    const q = query(collection(db, 'submissions'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list: ResignationFormData[] = [];
+      snapshot.forEach((docSnap) => {
+        list.push(docSnap.data() as ResignationFormData);
+      });
+      // Sort submissions by submittedAt (descending) or fall back to formDate
+      list.sort((a, b) => {
+        const timeA = a.submittedAt || '';
+        const timeB = b.submittedAt || '';
+        return timeB.localeCompare(timeA);
+      });
+      
+      if (list.length > 0) {
+        setSubmissions(list);
+        // Also cache in localStorage
+        try {
+          localStorage.setItem('suwon_rehab_resignation_submissions_v1', JSON.stringify(list));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }, (error) => {
+      console.error('Firestore subscription error:', error);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleUpdateFormData = (updated: Partial<ResignationFormData>) => {
     setFormData((prev) => ({
