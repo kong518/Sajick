@@ -67,17 +67,13 @@
     margin: 0; /* Let document-a4-page control size */
   }
 
-  /* Unset position, overflow, and height limits on all parent containers during printing */
-  html, body, #root, #root *, main, main *, .fixed, .absolute, .relative, [role="dialog"], .overflow-y-auto {
+  /* Unset position, overflow, and height limits ONLY on root layout elements, not deep page descendants */
+  html, body, #root, main, .overflow-y-auto {
     position: static !important;
     overflow: visible !important;
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
-    transform: none !important;
-    filter: none !important;
-    box-shadow: none !important;
-    border: none !important;
   }
 
   html, body {

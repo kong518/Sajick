@@ -50,13 +50,19 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
     '--scaled-height': `${1123 * scale}px`,
   } as React.CSSProperties;
 
-  const wrapResponsive = (pageEl: React.ReactNode) => (
-    <div className="responsive-page-scale-wrapper" style={pageScaleStyle}>
-      <div className="responsive-page-scale-content">
-        {pageEl}
+  const wrapResponsive = (pageEl: React.ReactNode, pageNum: number) => {
+    const isScreenHidden = page !== 'all' && (page as any) !== pageNum && (page === 'resignation' ? pageNum === 3 : true);
+    return (
+      <div
+        className={`responsive-page-scale-wrapper ${isScreenHidden ? 'hidden print:block' : ''}`}
+        style={pageScaleStyle}
+      >
+        <div className="responsive-page-scale-content">
+          {pageEl}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const resDate = formatDateKo(data.resignationDate);
   const formDate = formatDateKo(data.formDate);
@@ -118,14 +124,14 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Title */}
-          <div className="text-center my-10">
+          <div className="text-center my-6">
             <h1 className="text-3xl font-bold tracking-[1.2em] indent-[1.2em] text-slate-950 font-serif">
               사 직 서
             </h1>
           </div>
 
           {/* Applicant Info Section (소속, 성명, 생년월일, 입사일자, 사직사유) */}
-          <div className="mt-12 space-y-3.5 px-4 text-[16px] text-slate-900 font-sans">
+          <div className="mt-8 space-y-2.5 px-4 text-[15px] text-slate-900 font-sans">
             <div className="flex items-center">
               <span className="w-24 font-medium text-slate-800">소&nbsp;&nbsp;&nbsp;속 :</span>
               <span className="font-normal text-slate-900">{data.department || '사회서비스지원팀(활동지원사)'}</span>
@@ -153,8 +159,8 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         </div>
 
         {/* Middle Body Statement */}
-        <div className="my-14 px-4 text-center">
-          <p className="text-[17px] leading-[2.3] text-slate-950 font-serif">
+        <div className="my-8 px-4 text-center">
+          <p className="text-[16px] leading-[2.1] text-slate-950 font-serif">
             상기 본인은 {reasonText}로 인하여 {resDate.year}년 {resDate.month}월 {resDate.day}일부로 사직코자
             <br />
             사직서를 제출하오니 허락하여 주시기 바랍니다.
@@ -162,17 +168,17 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         </div>
 
         {/* Bottom Submission Date & Signatory (Aligned to right with ends matching) */}
-        <div className="mb-4">
+        <div className="mb-2">
           {/* Submission Date: Right Aligned */}
-          <div className="text-[16px] text-slate-900 mb-8 font-serif text-right pr-2">
+          <div className="text-[15px] text-slate-900 mb-4 font-serif text-right pr-2">
             <span className="px-1">{formDate.year}</span>년{' '}
             <span className="px-1">{formDate.month}</span>월{' '}
             <span className="px-1">{formDate.day}</span>일
           </div>
 
           {/* Signatory: Right Aligned, flush with date */}
-          <div className="flex justify-end items-center pr-2 mb-10">
-            <div className="flex items-center text-[16px]">
+          <div className="flex justify-end items-center pr-2 mb-6">
+            <div className="flex items-center text-[15px]">
               <span className="font-medium text-slate-900 mr-2">신&nbsp;&nbsp;청&nbsp;&nbsp;인 :</span>
               <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider">{data.name || '           '}</span>
               <div className="relative inline-flex items-center justify-center ml-2 w-16 h-8">
@@ -207,16 +213,16 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
       className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-12 md:p-16 flex flex-col justify-between shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-12 w-[210mm] min-h-[297mm] box-border text-[15px] leading-relaxed"
       style={{ fontFamily: HAMCHOROM_BATANG_FONT }}
     >
-      <div className="border border-slate-800 p-10 md:p-12 h-full flex flex-col justify-between flex-1">
+      <div className="border border-slate-800 p-8 md:p-10 h-full flex flex-col justify-between flex-1">
         {/* Title */}
-        <div className="text-center mt-12 mb-16">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-950 font-serif leading-snug">
+        <div className="text-center mt-6 mb-8">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-950 font-serif leading-snug">
             급여 및 퇴직연금 지급 지연 동의서
           </h1>
         </div>
 
         {/* Statement Body */}
-        <div className="px-6 md:px-10 text-[17px] leading-[2.4] text-slate-950 text-justify">
+        <div className="px-6 md:px-8 text-[15px] leading-[2.1] text-slate-950 text-justify">
           <p className="indent-6">
             장애인활동지원사업 특성상 근로 계약서에 명시된 바와 같이 급여가 1일에서 말일까지 근로 후
             익월 15일에 지급되고 있어 사직서 제출과 관계없이 급여는 익월 15일에 지급되며 퇴직연금은 최종
@@ -226,17 +232,17 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         </div>
 
         {/* Date & Signatory & Footer */}
-        <div className="mb-8">
+        <div className="mb-4">
           {/* Date: Centered */}
-          <div className="text-[17px] text-slate-900 mb-12 font-serif text-center">
+          <div className="text-[15px] text-slate-900 mb-6 font-serif text-center">
             <span className="px-1">{consentDate.year}</span>년{' '}
             <span className="px-1">{consentDate.month}</span>월{' '}
             <span className="px-1">{consentDate.day}</span>일
           </div>
 
           {/* Signatory: Right Aligned */}
-          <div className="flex justify-end items-center pr-2 mb-12">
-            <div className="flex items-center text-[17px]">
+          <div className="flex justify-end items-center pr-2 mb-6">
+            <div className="flex items-center text-[15px]">
                <span className="font-medium text-slate-900 mr-2">동&nbsp;의&nbsp;인 :</span>
               <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider">{data.name || '           '}</span>
               <div className="relative inline-flex items-center justify-center ml-2 w-16 h-8">
@@ -284,98 +290,89 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Section 1: 인적사항 */}
-          <div className="mb-3 font-sans">
-            <div className="font-bold text-slate-900 text-xs mb-1.5 font-serif">1. 인적사항</div>
-            <div className="space-y-0 text-xs text-slate-900">
-              {/* 인계자 줄 */}
-              <div className="flex items-center justify-between py-1.5 px-2 border-b border-slate-700">
-                <span className="font-bold text-slate-900 min-w-[70px]">인 계 자 :</span>
-                <div className="flex-1 grid grid-cols-3 gap-2">
-                  <div className="truncate">
-                    소속 <span className="font-medium ml-2">{data.handoverData?.handoverPersonDept || data.department || '사회서비스지원팀'}</span>
-                  </div>
-                  <div className="truncate">
-                    성명 <span className="font-semibold ml-2">{data.handoverData?.handoverPersonName || data.name}</span>
-                  </div>
-                  <div className="truncate">
-                    인계일 <span className="font-medium ml-2">{handoverDateObj.year}.{handoverDateObj.month}.{handoverDateObj.day}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 인수자 줄 */}
-              <div className="flex items-center justify-between py-1.5 px-2 border-b border-slate-700">
-                <span className="font-bold text-slate-900 min-w-[70px]">인 수 자 :</span>
-                <div className="flex-1 grid grid-cols-3 gap-2">
-                  <div className="truncate">
-                    소속 <span className="font-medium ml-2">{data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}</span>
-                  </div>
-                  <div className="truncate">
-                    성명 <span className="font-semibold ml-2">{data.handoverData?.takeoverPersonName || '전담관리인력'}</span>
-                  </div>
-                  <div className="truncate">
-                    인수일 <span className="font-medium ml-2">{takeoverDateObj.year}.{takeoverDateObj.month}.{takeoverDateObj.day}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 인계사유 줄 */}
-              <div className="flex items-center py-1.5 px-2 border-b border-slate-700">
-                <span className="font-bold text-slate-900 min-w-[70px]">인계사유 :</span>
-                <span className="font-medium ml-2 text-slate-800 truncate flex-1">
-                  {data.handoverData?.handoverReason || '사직으로 인한 활동지원 급여제공 업무 인계'}
-                </span>
-              </div>
-            </div>
-
-            {/* 수급자 정보 테이블 */}
-            <div className="mt-2">
-              <table className="w-full border-collapse border border-slate-800 text-xs">
-                <tbody>
-                  <tr>
-                    <td className="border border-slate-800 bg-slate-50/50 py-1.5 px-2 text-center font-medium w-28 text-slate-900">
-                      수급자성명
-                    </td>
-                    <td className="border border-slate-800 py-1.5 px-3 font-semibold text-slate-900 w-44">
-                      {data.handoverData?.recipients?.[0]?.recipientName || ''}
-                    </td>
-                    <td className="border border-slate-800 bg-slate-50/50 py-1.5 px-2 text-center font-medium w-28 text-slate-900">
-                      주소 /연락처
-                    </td>
-                    <td className="border border-slate-800 py-1.5 px-3 text-slate-800">
-                      {data.handoverData?.recipients?.[0]?.contactOrAddress || ''}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className="text-[10.5px] text-slate-600 mt-1 pl-1">
-                * 인계자는 전담관리인력이나 전임 활동지원인력 가능
-              </div>
+          <div className="mb-2 font-sans">
+            <div className="font-bold text-slate-900 text-xs mb-1 font-serif">1. 인적사항</div>
+            <table className="w-full border-collapse border border-slate-800 text-xs">
+              <tbody>
+                <tr>
+                  <td className="border border-slate-800 bg-slate-50/50 py-1.5 px-2 text-center font-bold w-20 text-slate-900">
+                    인계자
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800">
+                    소속: {data.handoverData?.handoverPersonDept || data.department || '사회서비스지원팀'}
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800">
+                    성명: {data.handoverData?.handoverPersonName || data.name}
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800 w-36">
+                    인계일: {handoverDateObj.year}.{handoverDateObj.month}.{handoverDateObj.day}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-800 bg-slate-50/50 py-1.5 px-2 text-center font-bold w-20 text-slate-900">
+                    인수자
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800">
+                    소속: {data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800">
+                    성명: {data.handoverData?.takeoverPersonName || '전담관리인력'}
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800 w-36">
+                    인수일: {takeoverDateObj.year}.{takeoverDateObj.month}.{takeoverDateObj.day}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-800 bg-slate-50/50 py-1.5 px-2 text-center font-bold w-20 text-slate-900">
+                    인계사유
+                  </td>
+                  <td colSpan={3} className="border border-slate-800 py-1.5 px-3 text-slate-800">
+                    {data.handoverData?.handoverReason || '사직으로 인한 활동지원 급여제공 업무 인계'}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-800 bg-slate-50/50 py-1.5 px-2 text-center font-bold w-20 text-slate-900">
+                    수급자명
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800 font-semibold">
+                    {data.handoverData?.recipients?.[0]?.recipientName || ''}
+                  </td>
+                  <td className="border border-slate-800 bg-slate-50/50 py-1.5 px-2 text-center font-bold w-20 text-slate-900">
+                    주소/연락처
+                  </td>
+                  <td className="border border-slate-800 py-1.5 px-3 text-slate-800">
+                    {data.handoverData?.recipients?.[0]?.contactOrAddress || ''}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="text-[10px] text-slate-600 mt-1 pl-1">
+              * 인계자는 전담관리인력이나 전임 활동지원인력 가능
             </div>
           </div>
 
           {/* Section 2: 인계 인수 업무사항 */}
-          <div className="mb-3 font-sans">
+          <div className="mb-2 font-sans">
             <div className="font-bold text-slate-900 text-xs mb-1 font-serif">2. 인계 인수 업무사항</div>
             <table className="w-full border-collapse border border-slate-800 text-xs table-fixed">
               <thead>
                 <tr className="bg-slate-50/50 text-center text-slate-900 font-medium">
-                  <th className="border border-slate-800 py-1.5 px-2 w-1/2">
+                  <th className="border border-slate-800 py-1 px-2 w-1/2">
                     인계 · 인수할 업무사항(급여제공 내용 등)
                   </th>
-                  <th className="border border-slate-800 py-1.5 px-2 w-1/2">
+                  <th className="border border-slate-800 py-1 px-2 w-1/2">
                     서비스제공시 유의 사항 및 중요 문제점
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-slate-800 p-2 align-top h-32 whitespace-pre-wrap leading-relaxed text-slate-800">
-                    <div className="text-[10.5px] text-slate-600 font-medium mb-1">※서비스 제공시간(자세하게)</div>
+                  <td className="border border-slate-800 p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800 text-[11px]">
+                    <div className="text-[10px] text-slate-500 font-medium mb-1">※ 서비스 제공시간(자세하게)</div>
                     {data.handoverData?.recipients?.[0]?.serviceDetails || ''}
                   </td>
-                  <td className="border border-slate-800 p-2 align-top h-32 whitespace-pre-wrap leading-relaxed text-slate-800">
-                    <div className="text-[10.5px] text-slate-600 font-medium mb-1">※ 반드시 작성</div>
+                  <td className="border border-slate-800 p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800 text-[11px]">
+                    <div className="text-[10px] text-slate-500 font-medium mb-1">※ 반드시 작성</div>
                     {data.handoverData?.recipients?.[0]?.precautions || ''}
                   </td>
                 </tr>
@@ -384,7 +381,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Section 3: 진행 및 미결사항 */}
-          <div className="mb-3 font-sans">
+          <div className="mb-2 font-sans">
             <div className="font-bold text-slate-900 text-xs mb-1 font-serif">3. 진행 및 미결사항</div>
             <table className="w-full border-collapse border border-slate-800 text-xs table-fixed">
               <thead>
@@ -399,10 +396,10 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-slate-800 p-2 align-top h-14 whitespace-pre-wrap leading-relaxed text-slate-800 text-xs">
+                  <td className="border border-slate-800 p-2 align-top h-12 whitespace-pre-wrap leading-relaxed text-slate-800 text-[11px]">
                     {data.handoverData?.inProgressItems || ''}
                   </td>
-                  <td className="border border-slate-800 p-2 align-top h-14 whitespace-pre-wrap leading-relaxed text-slate-800 text-xs">
+                  <td className="border border-slate-800 p-2 align-top h-12 whitespace-pre-wrap leading-relaxed text-slate-800 text-[11px]">
                     {data.handoverData?.pendingItems || ''}
                   </td>
                 </tr>
@@ -452,64 +449,73 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Signatures: 인계자, 인수자, 확인자 in 3 equal columns with normal weight & neat spacing */}
-          <div className="grid grid-cols-3 gap-8 text-xs sm:text-sm font-serif font-normal px-2 my-4">
+          <div className="grid grid-cols-3 gap-3 md:gap-6 text-xs sm:text-sm font-serif font-normal px-1 md:px-2 my-2">
             {/* 인계자 */}
-            <div className="flex items-center justify-between">
-              <span className="text-slate-900 tracking-wider">인계자</span>
-              <span className="text-slate-900 tracking-wider mx-auto">
-                {data.handoverData?.handoverPersonName || data.name || ''}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7">
-                <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
-                {(data.handoverData?.handoverSignature || data.applicantSignature) && (
-                  <img
-                    src={data.handoverData?.handoverSignature || data.applicantSignature}
-                    alt="인계자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+            <div className="flex flex-col items-center justify-center text-center space-y-1 bg-slate-50/30 p-2 rounded border border-slate-300 shadow-xs">
+              <span className="text-slate-900 font-bold tracking-wider">인계자</span>
+              <span className="text-[10px] text-slate-500 font-sans leading-none">(퇴사 활동지원사)</span>
+              <div className="flex items-center justify-center gap-1 mt-1 flex-wrap">
+                <span className="text-slate-900 font-medium tracking-wide">
+                  {data.handoverData?.handoverPersonName || data.name || ''}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-8 h-6 shrink-0">
+                  <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
+                  {(data.handoverData?.handoverSignature || data.applicantSignature) && (
+                    <img
+                      src={data.handoverData?.handoverSignature || data.applicantSignature}
+                      alt="인계자 서명"
+                      className="absolute inset-0 m-auto max-h-5 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
             </div>
 
             {/* 인수자 */}
-            <div className="flex items-center justify-between">
-              <span className="text-slate-900 tracking-wider">인수자</span>
-              <span className="text-slate-900 tracking-wider mx-auto">
-                {data.handoverData?.takeoverPersonName || '전담관리인력'}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7">
-                <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
-                {data.handoverData?.takeoverSignature && (
-                  <img
-                    src={data.handoverData.takeoverSignature}
-                    alt="인수자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+            <div className="flex flex-col items-center justify-center text-center space-y-1 bg-slate-50/30 p-2 rounded border border-slate-300 shadow-xs">
+              <span className="text-slate-900 font-bold tracking-wider">인수자</span>
+              <span className="text-[10px] text-slate-500 font-sans leading-none">(전담관리/후임자)</span>
+              <div className="flex items-center justify-center gap-1 mt-1 flex-wrap">
+                <span className="text-slate-900 font-medium tracking-wide">
+                  {data.handoverData?.takeoverPersonName || '전담관리인력'}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-8 h-6 shrink-0">
+                  <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
+                  {data.handoverData?.takeoverSignature && (
+                    <img
+                      src={data.handoverData.takeoverSignature}
+                      alt="인수자 서명"
+                      className="absolute inset-0 m-auto max-h-5 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
             </div>
 
             {/* 확인자 */}
-            <div className="flex items-center justify-between">
-              <span className="text-slate-900 tracking-wider">확인자</span>
-              <span className="text-slate-900 tracking-wider mx-auto">
-                {data.handoverData?.verifierName || data.managerApproval?.teamLeaderName || '팀장'}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7">
-                <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
-                {(data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature) && (
-                  <img
-                    src={data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature}
-                    alt="확인자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+            <div className="flex flex-col items-center justify-center text-center space-y-1 bg-slate-50/30 p-2 rounded border border-slate-300 shadow-xs">
+              <span className="text-slate-900 font-bold tracking-wider">확인자</span>
+              <span className="text-[10px] text-slate-500 font-sans leading-none">(기관 담당 팀장)</span>
+              <div className="flex items-center justify-center gap-1 mt-1 flex-wrap">
+                <span className="text-slate-900 font-medium tracking-wide">
+                  {data.handoverData?.verifierName || data.managerApproval?.teamLeaderName || '팀장'}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-8 h-6 shrink-0">
+                  <span className="text-slate-800 font-serif text-xs select-none font-bold">(인)</span>
+                  {(data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature) && (
+                    <img
+                      src={data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature}
+                      alt="확인자 서명"
+                      className="absolute inset-0 m-auto max-h-5 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -525,9 +531,9 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
 
   return (
     <div ref={containerRef} className="print-container w-full space-y-12 print:space-y-0">
-      {(page === 'all' || page === 'resignation' || (page as number | string) === 1 || page === '1') && wrapResponsive(renderPage1())}
-      {(page === 'all' || page === 'resignation' || (page as number | string) === 2 || page === '2') && wrapResponsive(renderPage2())}
-      {(page === 'all' || (page as number | string) === 3 || page === '3') && wrapResponsive(renderPage3())}
+      {wrapResponsive(renderPage1(), 1)}
+      {wrapResponsive(renderPage2(), 2)}
+      {wrapResponsive(renderPage3(), 3)}
     </div>
   );
 };
