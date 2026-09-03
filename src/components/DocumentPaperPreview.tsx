@@ -304,7 +304,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
     return (
       <div
         id="print-page-3"
-        className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-[15mm] flex flex-col justify-stretch shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-[15mm] w-[210mm] h-[297mm] min-h-[297mm] max-h-[297mm] box-border text-[11px] leading-normal"
+        className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-[15mm] flex flex-col justify-between shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-[15mm] w-[210mm] h-[297mm] min-h-[297mm] max-h-[297mm] box-border text-[11px] leading-normal"
         style={{ fontFamily: HAMCHOROM_BATANG_FONT }}
       >
         {/* Title */}
@@ -315,30 +315,30 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         </div>
 
         {/* Outer Border Box wrapping all 5 sections */}
-        <div className="border border-black p-3 flex-1 flex flex-col justify-between box-border overflow-hidden bg-white mb-3">
+        <div className="border border-black p-3.5 bg-white mb-2 flex flex-col justify-start gap-3">
           
           {/* Section 1: 서비스 대상자 */}
           <div>
             <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
               <span className="font-sans">□</span> 서비스 대상자
             </div>
-            <table className="w-full border-collapse border border-black text-center text-slate-950 mb-3 bg-white" style={{ fontSize: '9.5pt' }}>
+            <table className="w-full border-collapse border border-black text-center text-slate-950 bg-white" style={{ fontSize: '9.5pt' }}>
               <tbody>
                 <tr className="h-8">
-                  <td className="border border-black font-bold bg-white" style={{ width: '12%' }}>성명</td>
-                  <td className="border border-black bg-white" style={{ width: '18%' }}>{recipient.recipientName || ''}</td>
-                  <td className="border border-black font-bold bg-white" style={{ width: '18%' }}>생년월일/성별</td>
-                  <td className="border border-black bg-white" style={{ width: '22%' }}>{recipient.birthGender || ''}</td>
-                  <td className="border border-black font-bold bg-white leading-tight" style={{ width: '15%' }}>장애유형/<br/>서비스 구간</td>
-                  <td className="border border-black bg-white" style={{ width: '15%' }}>{recipient.typeSection || ''}</td>
+                  <td className="border border-black font-bold bg-white" style={{ width: '10%' }}>성명</td>
+                  <td className="border border-black bg-white" style={{ width: '15%' }}>{recipient.recipientName || ''}</td>
+                  <td className="border border-black font-bold bg-white whitespace-nowrap" style={{ width: '16%' }}>생년월일/성별</td>
+                  <td className="border border-black bg-white whitespace-nowrap" style={{ width: '18%' }}>{recipient.birthGender || ''}</td>
+                  <td className="border border-black font-bold bg-white whitespace-nowrap" style={{ width: '21%' }}>장애유형/서비스 구간</td>
+                  <td className="border border-black bg-white whitespace-nowrap" style={{ width: '20%' }}>{recipient.typeSection || ''}</td>
                 </tr>
                 <tr className="h-8">
                   <td className="border border-black font-bold bg-white">주소</td>
                   <td className="border border-black text-left px-2 bg-white" colSpan={3}>
                     {recipient.address || recipient.contactOrAddress || ''}
                   </td>
-                  <td className="border border-black font-bold bg-white">연락처</td>
-                  <td className="border border-black bg-white px-1">{recipient.contact || ''}</td>
+                  <td className="border border-black font-bold bg-white whitespace-nowrap">연락처</td>
+                  <td className="border border-black bg-white px-2 whitespace-nowrap">{recipient.contact || ''}</td>
                 </tr>
               </tbody>
             </table>
@@ -349,30 +349,38 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
               <span className="font-sans">□</span> 서비스 업무 인계·인수사항
             </div>
-            <table className="w-full border-collapse border border-black text-slate-950 mb-3 bg-white" style={{ fontSize: '9.5pt' }}>
+            <table className="w-full border-collapse border border-black text-slate-950 bg-white" style={{ fontSize: '9.5pt' }}>
               <tbody>
-                <tr className="h-8 text-center">
-                  <td className="border border-black font-bold bg-white" style={{ width: '12%' }}>인계자</td>
-                  <td className="border border-black bg-white font-medium" style={{ width: '38%' }}>{data.handoverData?.handoverPersonName || data.name}</td>
-                  <td className="border border-black text-left px-4 font-normal bg-white" style={{ width: '50%' }}>
-                    (인계일) &nbsp;&nbsp;&nbsp;&nbsp;
-                    {handoverDateObj.year ? (
-                      <span>{handoverDateObj.year} . {handoverDateObj.month} . {handoverDateObj.day} .</span>
-                    ) : (
-                      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.</span>
-                    )}
+                <tr className="h-8">
+                  <td className="border border-black font-bold bg-white text-center" style={{ width: '12%' }}>인계자</td>
+                  <td className="border border-black text-left px-4 bg-white" colSpan={2}>
+                    <div className="flex justify-between items-center w-full">
+                      <span className="font-medium text-[9.5pt]">{data.handoverData?.handoverPersonName || data.name}</span>
+                      <span className="font-normal text-[9.5pt]">
+                        (인계일) &nbsp;&nbsp;&nbsp;&nbsp;
+                        {handoverDateObj.year ? (
+                          <span>{handoverDateObj.year} . {handoverDateObj.month} . {handoverDateObj.day} .</span>
+                        ) : (
+                          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.</span>
+                        )}
+                      </span>
+                    </div>
                   </td>
                 </tr>
-                <tr className="h-8 text-center">
-                  <td className="border border-black font-bold bg-white">인수자</td>
-                  <td className="border border-black bg-white font-medium">{data.handoverData?.takeoverPersonName || '후임 활동지원사'}</td>
-                  <td className="border border-black text-left px-4 font-normal bg-white">
-                    (인수일) &nbsp;&nbsp;&nbsp;&nbsp;
-                    {takeoverDateObj.year ? (
-                      <span>{takeoverDateObj.year} . {takeoverDateObj.month} . {takeoverDateObj.day} .</span>
-                    ) : (
-                      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.</span>
-                    )}
+                <tr className="h-8">
+                  <td className="border border-black font-bold bg-white text-center">인수자</td>
+                  <td className="border border-black text-left px-4 bg-white" colSpan={2}>
+                    <div className="flex justify-between items-center w-full">
+                      <span className="font-medium text-[9.5pt]">{data.handoverData?.takeoverPersonName || '후임 활동지원사'}</span>
+                      <span className="font-normal text-[9.5pt]">
+                        (인수일) &nbsp;&nbsp;&nbsp;&nbsp;
+                        {takeoverDateObj.year ? (
+                          <span>{takeoverDateObj.year} . {takeoverDateObj.month} . {takeoverDateObj.day} .</span>
+                        ) : (
+                          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.</span>
+                        )}
+                      </span>
+                    </div>
                   </td>
                 </tr>
                 <tr className="h-8">
@@ -386,11 +394,11 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Section 3: 인계·인수 업무사항 */}
-          <div className="flex-1 flex flex-col justify-start mb-3">
+          <div>
             <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
               <span className="font-sans">○</span> 인계·인수 업무사항
             </div>
-            <table className="w-full border-collapse border border-black text-slate-950 flex-1 min-h-[180px] bg-white" style={{ fontSize: '9.5pt' }}>
+            <table className="w-full border-collapse border border-black text-slate-950 bg-white" style={{ fontSize: '9.5pt' }}>
               <thead>
                 <tr className="text-center font-bold h-8 bg-white">
                   <th className="border border-black w-1/2">인계·인수 업무사항</th>
@@ -399,10 +407,10 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '180px' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '150px' }}>
                     {recipient.serviceDetails || ''}
                   </td>
-                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '180px' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '150px' }}>
                     {recipient.precautions || ''}
                   </td>
                 </tr>
@@ -411,7 +419,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Section 4: 진행 및 미결사항 */}
-          <div className="mb-3">
+          <div>
             <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
               <span className="font-sans">○</span> 진행 및 미결사항
             </div>
@@ -424,10 +432,10 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '50px' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '45px' }}>
                     {data.handoverData?.inProgressItems || ''}
                   </td>
-                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '50px' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800 bg-white" style={{ height: '45px' }}>
                     {data.handoverData?.pendingItems || ''}
                   </td>
                 </tr>
