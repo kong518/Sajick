@@ -67,9 +67,20 @@
     margin: 0; /* Let document-a4-page control size */
   }
 
-  html, body {
-    height: auto !important;
+  /* Unset position, overflow, and height limits on all parent containers during printing */
+  html, body, #root, #root *, main, main *, .fixed, .absolute, .relative, [role="dialog"], .overflow-y-auto {
+    position: static !important;
     overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    transform: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  html, body {
     background-color: #ffffff !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -88,7 +99,7 @@
 
   /* Positioning and scaling resets */
   .print-container {
-    position: absolute !important;
+    position: relative !important; /* Must be relative to allow standard multi-page pagination */
     left: 0 !important;
     top: 0 !important;
     width: 210mm !important;
@@ -101,18 +112,27 @@
   }
 
   .responsive-page-scale-wrapper {
-    width: auto !important;
-    height: auto !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    max-height: 297mm !important;
     overflow: visible !important;
-    position: static !important;
+    position: relative !important;
     margin: 0 !important;
+    padding: 0 !important;
     display: block !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    box-sizing: border-box !important;
   }
 
   .responsive-page-scale-content {
     transform: none !important;
     position: static !important;
     margin: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .document-a4-page {
@@ -124,8 +144,8 @@
     padding: 15mm !important;
     border: none !important;
     box-shadow: none !important;
-    page-break-after: always !important;
-    break-after: page !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
     page-break-inside: avoid !important;
     display: flex !important;
     flex-direction: column !important;
