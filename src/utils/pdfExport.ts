@@ -2,16 +2,48 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ResignationFormData } from '../types';
 
-export const directPrint = () => {
-  try {
-    window.print();
-  } catch (error) {
-    console.warn('Direct window.print() failed:', error);
+export const printDocuments = () => {
+  const originalContainer = document.querySelector('.print-container');
+  if (!originalContainer) {
+    console.warn('Print container not found, falling back to standard print');
+    try {
+      window.print();
+    } catch (error) {
+      console.warn('Direct window.print() failed:', error);
+    }
+    return;
   }
+
+  // Create cloned print root
+  const printSection = document.createElement('div');
+  printSection.id = 'print-root-clone';
+  
+  // Clone original node
+  const cloned = originalContainer.cloneNode(true) as HTMLElement;
+  printSection.appendChild(cloned);
+  
+  // Append to body
+  document.body.appendChild(printSection);
+  
+  // Add print class to body
+  document.body.classList.add('is-printing-now');
+
+  // Trigger browser print after a brief timeout to let styles apply
+  setTimeout(() => {
+    try {
+      window.print();
+    } catch (error) {
+      console.warn('Window print failed:', error);
+    } finally {
+      // Cleanup
+      document.body.classList.remove('is-printing-now');
+      printSection.remove();
+    }
+  }, 150);
 };
 
-export const printDocuments = (page?: number | string) => {
-  directPrint();
+export const directPrint = () => {
+  printDocuments();
 };
 
 export const exportToPdf = async (

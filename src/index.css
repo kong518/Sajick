@@ -76,20 +76,44 @@
     max-height: none !important;
   }
 
+  /* When is-printing-now is active, hide original body children and format the cloned root perfectly */
+  body.is-printing-now > :not(#print-root-clone) {
+    display: none !important;
+  }
+
+  body.is-printing-now #print-root-clone {
+    display: block !important;
+    position: static !important;
+    overflow: visible !important;
+    height: auto !important;
+    width: 210mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.is-printing-now #print-root-clone * {
+    visibility: visible !important;
+  }
+
+  /* Force display of all pages in the cloned print output, even if tabs on the screen hide some */
+  body.is-printing-now #print-root-clone .responsive-page-scale-wrapper {
+    display: block !important;
+    visibility: visible !important;
+  }
+
   html, body {
     background-color: #ffffff !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* Hide everything on the page by default using visibility */
-  body * {
+  /* Fallback visibility rules for standard non-cloned prints */
+  body:not(.is-printing-now) * {
     visibility: hidden;
   }
 
-  /* Explicitly display and show ONLY the print container and its elements */
-  .print-container,
-  .print-container * {
+  body:not(.is-printing-now) .print-container,
+  body:not(.is-printing-now) .print-container * {
     visibility: visible !important;
   }
 
