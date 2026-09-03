@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* Official HCR Batang (함초롬바탕 / 함초롱바탕) Webfont */
+@font-face {
+  font-family: 'HCRBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/HANBatang.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HCRBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.0/HANBatangB.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Hamchorom Batang Unified Font Family */
+.font-hamchorom,
+.font-batang,
+.font-serif,
+.document-a4-page,
+.document-a4-page * {
+  font-family: 'HCRBatang', '함초롬바탕', 'HamchoromBatang', '함초롱바탕', 'Batang', '바탕체', 'KoPubWorldBatang', 'Noto Serif KR', serif !important;
+}
+
+@layer base {
+  body {
+    font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Print Styles for Perfect A4 Output matching the scanned official documents */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  header,
+  nav,
+  button,
+  .no-print,
+  #root > header,
+  .sticky {
+    display: none !important;
+  }
+
+  .document-a4-page {
+    width: 100% !important;
+    min-height: 270mm !important;
+    max-height: 280mm !important;
+    margin: 0 auto !important;
+    padding: 10mm !important;
+    border: none !important;
+    box-shadow: none !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .document-a4-page:last-child {
+    page-break-after: auto !important;
+    break-after: auto !important;
+  }
+
+  .print-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+}
