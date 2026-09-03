@@ -451,7 +451,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           {/* Signatures: 인계자, 인수자, 확인자 in 3 equal columns with normal weight & neat spacing */}
           <div className="grid grid-cols-3 gap-8 text-[13px] font-serif font-normal px-4 my-4">
             {/* 인계자 */}
-            <div className="flex items-center justify-between border-b border-slate-300 pb-1">
+            <div className="flex items-center justify-between py-1">
               <span className="text-slate-900 font-bold tracking-wider shrink-0">인계자</span>
               <span className="text-slate-900 tracking-wider mx-auto font-medium truncate px-1">
                 {data.handoverData?.handoverPersonName || data.name || ''}
@@ -471,7 +471,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             </div>
 
             {/* 인수자 */}
-            <div className="flex items-center justify-between border-b border-slate-300 pb-1">
+            <div className="flex items-center justify-between py-1">
               <span className="text-slate-900 font-bold tracking-wider shrink-0">인수자</span>
               <span className="text-slate-900 tracking-wider mx-auto font-medium truncate px-1">
                 {data.handoverData?.takeoverPersonName || '전담관리인력'}
@@ -491,7 +491,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             </div>
 
             {/* 확인자 */}
-            <div className="flex items-center justify-between border-b border-slate-300 pb-1">
+            <div className="flex items-center justify-between py-1">
               <span className="text-slate-900 font-bold tracking-wider shrink-0">확인자</span>
               <span className="text-slate-900 tracking-wider mx-auto font-medium truncate px-1">
                 {data.handoverData?.verifierName || data.managerApproval?.teamLeaderName || '팀장'}

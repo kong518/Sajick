@@ -48,7 +48,7 @@ export const SuwonWelfareLogo: React.FC<SuwonWelfareLogoProps> = ({
           </filter>
         </defs>
 
-        {/* 5-pointed Rounded Organic Star Body with vibrant true blue */}
+        {/* 5-pointed Rounded Organic Star Body with vibrant true blue (solid fill ensures perfect print/cloning visibility) */}
         <path
           d="M 80 12
              C 87 12, 97 39, 107 46
@@ -61,7 +61,7 @@ export const SuwonWelfareLogo: React.FC<SuwonWelfareLogoProps> = ({
              C 31 93, 9 72, 12 63
              C 15 54, 43 53, 53 46
              C 63 39, 73 12, 80 12 Z"
-          fill="url(#suwonStarGradient)"
+          fill="#0077c8"
         />
 
         {/* Top Sprouts: Crisp Green & Orange Petals */}
