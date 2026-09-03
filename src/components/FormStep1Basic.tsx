@@ -20,22 +20,34 @@ export const FormStep1Basic: React.FC<FormStep1BasicProps> = ({
   onChange,
   onNext,
 }) => {
+  const formatToDateString = (val: string) => {
+    const clean = val.replace(/\D/g, '');
+    if (clean.length <= 4) return clean;
+    if (clean.length <= 6) return `${clean.slice(0, 4)}-${clean.slice(4)}`;
+    return `${clean.slice(0, 4)}-${clean.slice(4, 6)}-${clean.slice(6, 8)}`;
+  };
+
+  const handleDateInput = (val: string, callback: (formatted: string) => void) => {
+    callback(formatToDateString(val));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim()) {
       alert('성명을 입력해 주세요.');
       return;
     }
-    if (!formData.birthDate) {
-      alert('생년월일을 입력해 주세요.');
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!formData.birthDate || !dateRegex.test(formData.birthDate)) {
+      alert('생년월일을 YYYY-MM-DD 형식의 8자리 숫자로 입력해 주세요.');
       return;
     }
-    if (!formData.hireDate) {
-      alert('입사일자를 입력해 주세요.');
+    if (!formData.hireDate || !dateRegex.test(formData.hireDate)) {
+      alert('입사일자를 YYYY-MM-DD 형식의 8자리 숫자로 입력해 주세요.');
       return;
     }
-    if (!formData.resignationDate) {
-      alert('사직 일자(마지막 근무일)를 입력해 주세요.');
+    if (!formData.resignationDate || !dateRegex.test(formData.resignationDate)) {
+      alert('사직 일자를 YYYY-MM-DD 형식의 8자리 숫자로 입력해 주세요.');
       return;
     }
     onNext();
@@ -78,12 +90,12 @@ export const FormStep1Basic: React.FC<FormStep1BasicProps> = ({
   return (
     <form id="step1-form" onSubmit={handleSubmit} className="space-y-6">
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 md:p-8 space-y-6">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <User className="w-5 h-5 text-blue-700" />
-            1단계: 기본 인적사항 및 사직 정보 입력
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-200 gap-2">
+          <h2 className="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2 leading-snug">
+            <User className="w-5 h-5 text-blue-700 shrink-0" />
+            <span>1단계: 기본 인적사항 및 사직 정보 입력</span>
           </h2>
-          <span className="text-xs font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+          <span className="self-start sm:self-auto text-xs font-mono text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200 shrink-0">
             Step 1 / 3
           </span>
         </div>
@@ -130,13 +142,17 @@ export const FormStep1Basic: React.FC<FormStep1BasicProps> = ({
               생년월일 <span className="text-rose-500">*</span>
             </label>
             <input
-              type="date"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9\-]*"
               id="input-birthDate"
               value={formData.birthDate}
-              onChange={(e) => onChange({ birthDate: e.target.value })}
+              onChange={(e) => handleDateInput(e.target.value, (formatted) => onChange({ birthDate: formatted }))}
+              placeholder="예: 1974-10-03"
               className="w-full px-3.5 py-2.5 border border-slate-300 rounded text-sm text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
               required
             />
+            <p className="text-[10px] text-slate-500 mt-1">숫자 8자리를 입력하시면 자동 포맷팅됩니다.</p>
           </div>
 
           {/* 입사일자 */}
@@ -146,13 +162,17 @@ export const FormStep1Basic: React.FC<FormStep1BasicProps> = ({
               입사일자 <span className="text-rose-500">*</span>
             </label>
             <input
-              type="date"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9\-]*"
               id="input-hireDate"
               value={formData.hireDate}
-              onChange={(e) => onChange({ hireDate: e.target.value })}
+              onChange={(e) => handleDateInput(e.target.value, (formatted) => onChange({ hireDate: formatted }))}
+              placeholder="예: 2020-09-03"
               className="w-full px-3.5 py-2.5 border border-slate-300 rounded text-sm text-slate-900 focus:ring-2 focus:ring-blue-600 focus:border-blue-600 focus:outline-none transition"
               required
             />
+            <p className="text-[10px] text-slate-500 mt-1">숫자 8자리를 입력하시면 자동 포맷팅됩니다.</p>
           </div>
 
           {/* 사직 일자(마지막 근무일) */}
@@ -162,15 +182,18 @@ export const FormStep1Basic: React.FC<FormStep1BasicProps> = ({
               사직 일자(마지막 근무일) <span className="text-rose-500">*</span>
             </label>
             <input
-              type="date"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9\-]*"
               id="input-resignationDate"
               value={formData.resignationDate}
-              onChange={(e) => handleResignationDateChange(e.target.value)}
+              onChange={(e) => handleDateInput(e.target.value, (formatted) => handleResignationDateChange(formatted))}
+              placeholder="예: 2026-09-03"
               className="w-full px-3.5 py-2.5 border-2 border-blue-600 bg-blue-50/20 rounded text-sm text-slate-900 font-bold focus:bg-white focus:ring-2 focus:ring-blue-600 focus:outline-none transition"
               required
             />
             <p className="text-[11px] text-slate-500 mt-1">
-              ※ 마지막 근무일 기준 사직서 및 업무 인계·인수서의 날짜로 자동 연동됩니다.
+              ※ 숫자 8자리를 입력하시면 자동 포맷팅되며, 사직서 및 업무 인계·인수서의 날짜로 연동됩니다.
             </p>
           </div>
         </div>

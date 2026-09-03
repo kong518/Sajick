@@ -45,9 +45,9 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
 
   const scale = containerWidth < 826 ? Math.max(0.3, (containerWidth - 16) / 794) : 1;
   const pageScaleStyle = {
-    '--page-scale': scale,
-    '--scaled-width': `${794 * scale}px`,
-    '--scaled-height': `${1123 * scale}px`,
+    '--page-scale': String(scale),
+    '--scaled-width': `${Math.floor(794 * scale)}px`,
+    '--scaled-height': `${Math.floor(1123 * scale)}px`,
   } as React.CSSProperties;
 
   const wrapResponsive = (pageEl: React.ReactNode, pageNum: number) => {
@@ -57,7 +57,13 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         className={`responsive-page-scale-wrapper ${isScreenHidden ? 'hidden print:block' : ''}`}
         style={pageScaleStyle}
       >
-        <div className="responsive-page-scale-content">
+        <div 
+          className="responsive-page-scale-content"
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: 'top center'
+          }}
+        >
           {pageEl}
         </div>
       </div>

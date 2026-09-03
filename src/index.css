@@ -43,8 +43,8 @@
     display: block !important;
   }
   .responsive-page-scale-content {
-    transform: scale(var(--page-scale)) !important;
-    transform-origin: top center !important;
+    transform: scale(var(--page-scale));
+    transform-origin: top center;
     position: absolute !important;
     top: 0 !important;
     left: 50% !important;

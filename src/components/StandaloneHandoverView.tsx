@@ -70,6 +70,13 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
   // Clipboard copy feedback
   const [copySuccess, setCopySuccess] = useState(false);
 
+  const formatToDateString = (val: string) => {
+    const clean = val.replace(/\D/g, '');
+    if (clean.length <= 4) return clean;
+    if (clean.length <= 6) return `${clean.slice(0, 4)}-${clean.slice(4)}`;
+    return `${clean.slice(0, 4)}-${clean.slice(4, 6)}-${clean.slice(6, 8)}`;
+  };
+
   // 3. Admin Edit Form State
   const activeSubmission = submissions.find((s) => s.id === selectedSubId) || submissions[0] || null;
   const [adminHandoverData, setAdminHandoverData] = useState<ResignationFormData['handoverData'] | null>(null);
@@ -340,7 +347,7 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
       </div>
 
       {/* Role Selector Tabs (인계자 vs 인수자 vs 관리자) */}
-      <div className="bg-white p-2 rounded-xl border border-slate-200 shadow-sm grid grid-cols-2 md:grid-cols-3 gap-2 text-xs font-bold">
+      <div className="bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm grid grid-cols-2 md:grid-cols-3 gap-1.5 text-xs font-bold">
         <button
           type="button"
           id="btn-signer-handover"
@@ -349,14 +356,17 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
             setSubmissionSuccess(null);
             setErrorMessage(null);
           }}
-          className={`py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition ${
+          className={`py-2 px-1.5 sm:py-3 sm:px-4 rounded-lg flex flex-col items-center justify-center text-center leading-tight transition ${
             signerRole === 'handover'
               ? 'bg-blue-700 text-white shadow-xs'
               : 'text-slate-700 hover:bg-slate-100'
           }`}
         >
-          <UserCheck className="w-4 h-4" />
-          인계자 서명 (퇴사 활동지원사)
+          <div className="flex items-center gap-1">
+            <UserCheck className="w-3.5 h-3.5" />
+            <span className="text-xs sm:text-sm font-bold">인계자 서명</span>
+          </div>
+          <span className="text-[10px] mt-0.5 font-normal opacity-90">(퇴사 활동지원사)</span>
         </button>
 
         <button
@@ -367,14 +377,17 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
             setSubmissionSuccess(null);
             setErrorMessage(null);
           }}
-          className={`py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition ${
+          className={`py-2 px-1.5 sm:py-3 sm:px-4 rounded-lg flex flex-col items-center justify-center text-center leading-tight transition ${
             signerRole === 'takeover'
               ? 'bg-emerald-700 text-white shadow-xs'
               : 'text-slate-700 hover:bg-slate-100'
           }`}
         >
-          <Users className="w-4 h-4" />
-          인수자 서명 (후임 / 전담인력)
+          <div className="flex items-center gap-1">
+            <Users className="w-3.5 h-3.5" />
+            <span className="text-xs sm:text-sm font-bold">인수자 서명</span>
+          </div>
+          <span className="text-[10px] mt-0.5 font-normal opacity-90">(후임 / 전담인력)</span>
         </button>
 
         {currentRole === 'admin' && (
@@ -386,14 +399,17 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
               setSubmissionSuccess(null);
               setErrorMessage(null);
             }}
-            className={`col-span-2 md:col-span-1 py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition ${
+            className={`col-span-2 md:col-span-1 py-2 px-1.5 sm:py-3 sm:px-4 rounded-lg flex flex-col items-center justify-center text-center leading-tight transition ${
               signerRole === 'admin'
                 ? 'bg-slate-900 text-white shadow-xs'
                 : 'text-slate-700 hover:bg-slate-100'
             }`}
           >
-            <Shield className="w-4 h-4 text-amber-400" />
-            기관 관리자 통합 관리 모드
+            <div className="flex items-center gap-1 justify-center">
+              <Shield className="w-3.5 h-3.5 text-amber-400" />
+              <span className="text-xs sm:text-sm font-bold">기관 관리자</span>
+            </div>
+            <span className="text-[10px] mt-0.5 font-normal opacity-90">(통합 관리 모드)</span>
           </button>
         )}
       </div>
@@ -664,12 +680,18 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
                   인계일자 (사직일자/마지막 근무일) <span className="text-rose-500">*</span>
                 </label>
                 <input
-                  type="date"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9\-]*"
                   value={handoverForm.handoverDate}
-                  onChange={(e) => setHandoverForm({ ...handoverForm, handoverDate: e.target.value })}
+                  onChange={(e) => setHandoverForm({ ...handoverForm, handoverDate: formatToDateString(e.target.value) })}
+                  placeholder="예: 2026-09-03"
                   className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 font-bold focus:ring-2 focus:ring-blue-600 focus:outline-none"
                   required
                 />
+                <span className="text-[10px] text-slate-500 mt-1 block">
+                  숫자 8자리를 입력하시면 자동 포맷팅됩니다.
+                </span>
               </div>
 
               <div>
@@ -916,12 +938,18 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
                   인수일자 <span className="text-rose-500">*</span>
                 </label>
                 <input
-                  type="date"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9\-]*"
                   value={takeoverForm.takeoverDate}
-                  onChange={(e) => setTakeoverForm({ ...takeoverForm, takeoverDate: e.target.value })}
+                  onChange={(e) => setTakeoverForm({ ...takeoverForm, takeoverDate: formatToDateString(e.target.value) })}
+                  placeholder="예: 2026-09-03"
                   className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 font-bold focus:ring-2 focus:ring-emerald-600 focus:outline-none"
                   required
                 />
+                <span className="text-[10px] text-slate-500 mt-1 block">
+                  숫자 8자리를 입력하시면 자동 포맷팅됩니다.
+                </span>
               </div>
             </div>
           </div>
