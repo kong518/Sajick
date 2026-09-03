@@ -230,8 +230,8 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         </div>
 
         {/* Statement Body */}
-        <div className="px-2 text-left w-full my-auto">
-          <p className="text-slate-950 text-justify" style={{ fontSize: '17pt', lineHeight: '1.6', textAlign: 'justify', textJustify: 'inter-word', wordBreak: 'keep-all' }}>
+        <div className="px-0 text-left w-full my-auto">
+          <p className="text-slate-950 text-justify" style={{ fontSize: '16.5pt', lineHeight: '1.6', textAlign: 'justify', textJustify: 'inter-word', wordBreak: 'keep-all', letterSpacing: '-0.04em' }}>
             장애인활동지원사업 특성상 근로 계약서에 명시된 바와 같이 급여가 1일에서 말일까지 근로 후 익월 15일에 지급되고 있어 사직서 제출과 관계없이 급여는 익월 15일에 지급되며 퇴직연금은 최종 급여지급일 이후 15일 이내({data.consentPensionMonth || '   '}월 30일 이내)에 지급이 지연 처리됨에 동의합니다.
           </p>
         </div>
@@ -306,21 +306,21 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>1. 인적사항</div>
             <div className="border-t border-black mb-1">
               {/* 인계자 Row */}
-              <div className="grid grid-cols-[70px_200px_120px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+              <div className="grid grid-cols-[70px_160px_110px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
                 <div className="font-bold" style={{ fontSize: '11pt' }}>인 계 자 :</div>
                 <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.handoverPersonDept || '사회서비스지원팀'}</div>
                 <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.handoverPersonName || data.name}</div>
-                <div className="text-right whitespace-nowrap" style={{ fontSize: '11pt' }}>
+                <div className="pl-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
                   인계일&nbsp;&nbsp;{handoverDateObj.year}.{handoverDateObj.month}.{handoverDateObj.day}
                 </div>
               </div>
 
               {/* 인수자 Row */}
-              <div className="grid grid-cols-[70px_200px_120px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+              <div className="grid grid-cols-[70px_160px_110px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
                 <div className="font-bold" style={{ fontSize: '11pt' }}>인 수 자 :</div>
                 <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}</div>
                 <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.takeoverPersonName || '전담관리인력'}</div>
-                <div className="text-right whitespace-nowrap" style={{ fontSize: '11pt' }}>
+                <div className="pl-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
                   인수일&nbsp;&nbsp;{takeoverDateObj.year}.{takeoverDateObj.month}.{takeoverDateObj.day}
                 </div>
               </div>
