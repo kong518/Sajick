@@ -184,7 +184,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Signatory: Right Aligned, flush with date */}
-          <div className="flex justify-end items-center pr-2 mb-6">
+          <div className="flex justify-end items-center pr-2 mb-28">
             <div className="flex items-center" style={{ fontSize: '15pt' }}>
               <span className="font-medium text-slate-900 mr-2" style={{ fontSize: '15pt' }}>신&nbsp;&nbsp;청&nbsp;&nbsp;인 :</span>
               <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider" style={{ fontSize: '15pt' }}>{data.name || '           '}</span>
@@ -204,7 +204,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Recipient */}
-          <div className="text-center pt-2">
+          <div className="text-center pt-12">
             <h2 className="font-bold tracking-[0.25em] text-slate-950 font-serif" style={{ fontSize: '20pt' }}>
               수원시장애인종합복지관 귀중
             </h2>
@@ -306,21 +306,21 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>1. 인적사항</div>
             <div className="border-t border-black mb-1">
               {/* 인계자 Row */}
-              <div className="grid grid-cols-[70px_160px_110px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+              <div className="grid grid-cols-[75px_220px_160px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
                 <div className="font-bold" style={{ fontSize: '11pt' }}>인 계 자 :</div>
                 <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.handoverPersonDept || '사회서비스지원팀'}</div>
                 <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.handoverPersonName || data.name}</div>
-                <div className="pl-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
+                <div className="text-right pr-6 whitespace-nowrap" style={{ fontSize: '11pt' }}>
                   인계일&nbsp;&nbsp;{handoverDateObj.year}.{handoverDateObj.month}.{handoverDateObj.day}
                 </div>
               </div>
 
               {/* 인수자 Row */}
-              <div className="grid grid-cols-[70px_160px_110px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+              <div className="grid grid-cols-[75px_220px_160px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
                 <div className="font-bold" style={{ fontSize: '11pt' }}>인 수 자 :</div>
                 <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}</div>
                 <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.takeoverPersonName || '전담관리인력'}</div>
-                <div className="pl-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
+                <div className="text-right pr-6 whitespace-nowrap" style={{ fontSize: '11pt' }}>
                   인수일&nbsp;&nbsp;{takeoverDateObj.year}.{takeoverDateObj.month}.{takeoverDateObj.day}
                 </div>
               </div>
@@ -373,7 +373,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
               <tbody>
                 <tr>
                   <td className="border border-black p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
-                    <div className="text-[10px] text-slate-400 font-medium mb-1" style={{ fontSize: '10pt' }}>※ 서비스 제공시간(자세하게)</div>
+                    <div className="text-[10px] text-slate-400 font-medium mb-1 print:hidden" style={{ fontSize: '10pt' }}>※ 서비스 제공시간(자세하게)</div>
                     {data.handoverData?.recipients?.[0]?.serviceDetails || ''}
                   </td>
                   <td className="border border-black p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
