@@ -21,8 +21,19 @@ export const getDefaultResignationDate = () => {
 export const createEmptyFormData = (): ResignationFormData => {
   const today = getTodayDateString();
   const resignationDate = getDefaultResignationDate();
-  const curMonth = new Date().getMonth() + 1;
-  const pensionMonth = String((curMonth + 1) > 12 ? (curMonth + 1) - 12 : (curMonth + 1));
+  
+  // Calculate next month of resignationDate as the default delay pension month
+  let pensionMonth = '1';
+  if (resignationDate) {
+    const parts = resignationDate.split('-');
+    if (parts.length === 3) {
+      const resignationMonth = parseInt(parts[1], 10);
+      if (!isNaN(resignationMonth) && resignationMonth >= 1 && resignationMonth <= 12) {
+        const nextMonth = (resignationMonth % 12) + 1;
+        pensionMonth = String(nextMonth);
+      }
+    }
+  }
 
   return {
     id: 'form_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),

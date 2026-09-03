@@ -65,14 +65,16 @@ export const FormStep1Basic: React.FC<FormStep1BasicProps> = ({
   };
 
   const handleResignationDateChange = (date: string) => {
-    // Also update retirement delay month
+    // Also update retirement delay month to the next month of the resignation date
     let pensionMonth = formData.consentPensionMonth;
     if (date) {
       const parts = date.split('-');
       if (parts.length === 3) {
         const resignationMonth = parseInt(parts[1], 10);
-        const nextMonth = (resignationMonth % 12) + 1;
-        pensionMonth = String(nextMonth);
+        if (!isNaN(resignationMonth) && resignationMonth >= 1 && resignationMonth <= 12) {
+          const nextMonth = (resignationMonth % 12) + 1;
+          pensionMonth = String(nextMonth);
+        }
       }
     }
 
