@@ -306,21 +306,21 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>1. 인적사항</div>
             <div className="border-t border-black mb-1">
               {/* 인계자 Row */}
-              <div className="grid grid-cols-[75px_220px_160px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+              <div className="grid grid-cols-[12%_35%_23%_30%] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
                 <div className="font-bold" style={{ fontSize: '11pt' }}>인 계 자 :</div>
                 <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.handoverPersonDept || '사회서비스지원팀'}</div>
                 <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.handoverPersonName || data.name}</div>
-                <div className="text-right pr-6 whitespace-nowrap" style={{ fontSize: '11pt' }}>
+                <div className="text-right pr-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
                   인계일&nbsp;&nbsp;{handoverDateObj.year}.{handoverDateObj.month}.{handoverDateObj.day}
                 </div>
               </div>
 
               {/* 인수자 Row */}
-              <div className="grid grid-cols-[75px_220px_160px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+              <div className="grid grid-cols-[12%_35%_23%_30%] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
                 <div className="font-bold" style={{ fontSize: '11pt' }}>인 수 자 :</div>
                 <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}</div>
                 <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.takeoverPersonName || '전담관리인력'}</div>
-                <div className="text-right pr-6 whitespace-nowrap" style={{ fontSize: '11pt' }}>
+                <div className="text-right pr-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
                   인수일&nbsp;&nbsp;{takeoverDateObj.year}.{takeoverDateObj.month}.{takeoverDateObj.day}
                 </div>
               </div>
