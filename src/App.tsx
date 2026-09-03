@@ -217,7 +217,7 @@ export default function App() {
         ...createEmptyFormData(),
         id: submissionId || 'form_' + Date.now(),
         name: handoverData.handoverPersonName || '활동지원사',
-        department: handoverData.handoverPersonDept || '사회서비스지원팀(활동지원사)',
+        department: handoverData.handoverPersonDept || '사회서비스지원팀',
         resignationDate: handoverData.handoverDate || new Date().toISOString().split('T')[0],
         resignationReason: handoverData.handoverReason || '사직',
         status: 'submitted',

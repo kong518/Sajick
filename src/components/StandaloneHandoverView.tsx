@@ -49,7 +49,7 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
     handoverPersonName: '',
     recipientName: '', // 담당 이용자(수급자) 성명
     recipientContact: '', // 이용자 주소/연락처 (선택)
-    handoverPersonDept: '사회서비스지원팀(활동지원사)',
+    handoverPersonDept: '사회서비스지원팀',
     handoverDate: new Date().toISOString().split('T')[0],
     handoverReason: '사직으로 인한 장애인활동지원 급여제공 업무 인계',
     serviceDetails: '', // 인계·인수할 업무사항(급여제공 내용 등, 서비스 제공시간 자세하게)
@@ -260,12 +260,12 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
     const existingHandover = target?.handoverData || {
       hasHandover: true,
       handoverPersonName: takeoverForm.handoverPersonName.trim(),
-      handoverPersonDept: '사회서비스지원팀(활동지원사)',
+      handoverPersonDept: '사회서비스지원팀',
       handoverDate: takeoverForm.takeoverDate,
       takeoverPersonName: takeoverForm.takeoverPersonName.trim(),
       takeoverPersonDept: takeoverForm.takeoverPersonDept,
       takeoverDate: takeoverForm.takeoverDate,
-      handoverReason: '사직으로 인한 활동지원 급여제공 업무 인계',
+      handoverReason: '사직으로 인한 장애인활동지원 급여제공 업무 인계',
       recipients: [
         {
           id: 'rec_1',

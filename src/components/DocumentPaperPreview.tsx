@@ -93,14 +93,14 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         <div className="w-full">
           {/* Approval box at top right */}
           <div className="flex justify-end mb-6">
-            <table className="border-collapse border border-black text-center text-xs font-sans" style={{ fontSize: '12pt' }}>
+            <table className="border-collapse border border-black text-center text-xs font-sans" style={{ fontSize: '12pt', width: '160px' }}>
               <tbody>
                 <tr>
-                  <th className="border border-black px-4 py-1.5 font-medium bg-slate-50 w-16" style={{ fontSize: '12pt' }}>담당</th>
-                  <th className="border border-black px-4 py-1.5 font-medium bg-slate-50 w-16" style={{ fontSize: '12pt' }}>팀장</th>
+                  <th className="border border-black py-1.5 font-medium bg-slate-50" style={{ fontSize: '12pt', width: '80px', whiteSpace: 'nowrap' }}>담당</th>
+                  <th className="border border-black py-1.5 font-medium bg-slate-50" style={{ fontSize: '12pt', width: '80px', whiteSpace: 'nowrap' }}>팀장</th>
                 </tr>
                 <tr className="h-16">
-                  <td className="border border-black p-1 text-center align-middle relative w-16 h-16">
+                  <td className="border border-black p-1 text-center align-middle relative h-16" style={{ width: '80px' }}>
                     {data.managerApproval?.managerSignature ? (
                       <img
                         src={data.managerApproval.managerSignature}
@@ -111,7 +111,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
                       />
                     ) : null}
                   </td>
-                  <td className="border border-black p-1 text-center align-top font-sans text-slate-800 text-xs relative w-16 h-16">
+                  <td className="border border-black p-1 text-center align-middle font-sans text-slate-800 text-xs relative h-16" style={{ width: '80px' }}>
                     {data.managerApproval?.teamLeaderSignature ? (
                       <img
                         src={data.managerApproval.teamLeaderSignature}
@@ -121,7 +121,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
                         referrerPolicy="no-referrer"
                       />
                     ) : (
-                      <div className="pt-0.5 text-[11px] font-medium text-slate-700" style={{ fontSize: '12pt' }}>전결</div>
+                      <div className="text-[11px] font-medium text-slate-700" style={{ fontSize: '12pt', whiteSpace: 'nowrap' }}>전결</div>
                     )}
                   </td>
                 </tr>
@@ -165,8 +165,8 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         </div>
 
         {/* Middle Body Statement - LEFT ALIGNED AS REQUESTED */}
-        <div className="my-8 px-4 text-left w-full">
-          <p className="leading-[2.1] text-slate-950 font-serif" style={{ fontSize: '15pt', textIndent: '1.5em' }}>
+        <div className="my-8 px-6 text-left w-full">
+          <p className="leading-[2.2] text-slate-950 font-serif text-left" style={{ fontSize: '15pt', wordBreak: 'keep-all' }}>
             상기 본인은 {reasonText}로 인하여 {resDate.year}년 {resDate.month}월 {resDate.day}일부로 사직코자
             <br />
             사직서를 제출하오니 허락하여 주시기 바랍니다.
@@ -229,12 +229,9 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
         </div>
 
         {/* Statement Body */}
-        <div className="px-6 md:px-8 text-slate-950 text-justify w-full my-auto">
-          <p className="indent-6" style={{ fontSize: '17pt', lineHeight: '2.1' }}>
-            장애인활동지원사업 특성상 근로 계약서에 명시된 바와 같이 급여가 1일에서 말일까지 근로 후
-            익월 15일에 지급되고 있어 사직서 제출과 관계없이 급여는 익월 15일에 지급되며 퇴직연금은 최종
-            급여지급일 이후 15일 이내({data.consentPensionMonth || ' '}월 30일 이내)에 지급이 지연 처리됨에
-            동의합니다.
+        <div className="px-6 text-left w-full my-auto">
+          <p className="leading-[2.2] text-slate-950 text-justify" style={{ fontSize: '17pt', wordBreak: 'keep-all' }}>
+            장애인활동지원사업 특성상 근로 계약서에 명시된 바와 같이 급여가 1일에서 말일까지 근로 후 익월 15일에 지급되고 있어 사직서 제출과 관계없이 급여는 익월 15일에 지급되며 퇴직연금은 최종 급여지급일 이후 15일 이내({data.consentPensionMonth || ' '}월 30일 이내)에 지급이 지연 처리됨에 동의합니다.
           </p>
         </div>
 
@@ -248,7 +245,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Signatory: Right Aligned */}
-          <div className="flex justify-end items-center pr-2 mb-8">
+          <div className="flex justify-end items-center pr-2 mb-16">
             <div className="flex items-center" style={{ fontSize: '17pt' }}>
               <span className="font-medium text-slate-900 mr-2" style={{ fontSize: '17pt' }}>동&nbsp;의&nbsp;인 :</span>
               <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider" style={{ fontSize: '17pt' }}>{data.name || '           '}</span>
@@ -268,7 +265,7 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
           </div>
 
           {/* Recipient */}
-          <div className="text-center pt-4">
+          <div className="text-center pt-12">
             <h2 className="font-bold tracking-[0.25em] text-slate-950 font-serif" style={{ fontSize: '20pt' }}>
               수원시장애인종합복지관 귀중
             </h2>
@@ -297,35 +294,34 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             </div>
           </div>
 
-          {/* Section 1: 인적사항 - Structured exactly like 1.png */}
+          {/* Section 1: 인적사항 - Structured exactly like 1.png with Perfect Grid Alignment */}
           <div className="mb-2 font-sans">
             <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>1. 인적사항</div>
             <div className="border-t border-black mb-1">
-              <div className="border-b border-black py-1.5 flex justify-between items-center px-2" style={{ fontSize: '11pt' }}>
-                <div className="flex items-center">
-                  <span className="font-bold mr-4" style={{ fontSize: '11pt' }}>인 계 자 :</span>
-                  <span className="mr-8" style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.handoverPersonDept || data.department || '사회서비스지원팀(활동지원사)'}</span>
-                  <span style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.handoverPersonName || data.name}</span>
-                </div>
-                <div style={{ fontSize: '11pt' }}>
+              {/* 인계자 Row */}
+              <div className="grid grid-cols-[80px_230px_130px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+                <div className="font-bold" style={{ fontSize: '11pt' }}>인 계 자 :</div>
+                <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.handoverPersonDept || '사회서비스지원팀'}</div>
+                <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.handoverPersonName || data.name}</div>
+                <div className="text-right" style={{ fontSize: '11pt' }}>
                   인계일&nbsp;&nbsp;{handoverDateObj.year}.{handoverDateObj.month}.{handoverDateObj.day}
                 </div>
               </div>
 
-              <div className="border-b border-black py-1.5 flex justify-between items-center px-2" style={{ fontSize: '11pt' }}>
-                <div className="flex items-center">
-                  <span className="font-bold mr-4" style={{ fontSize: '11pt' }}>인 수 자 :</span>
-                  <span className="mr-8" style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}</span>
-                  <span style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.takeoverPersonName || '전담관리인력'}</span>
-                </div>
-                <div style={{ fontSize: '11pt' }}>
+              {/* 인수자 Row */}
+              <div className="grid grid-cols-[80px_230px_130px_1fr] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
+                <div className="font-bold" style={{ fontSize: '11pt' }}>인 수 자 :</div>
+                <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}</div>
+                <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.takeoverPersonName || '전담관리인력'}</div>
+                <div className="text-right" style={{ fontSize: '11pt' }}>
                   인수일&nbsp;&nbsp;{takeoverDateObj.year}.{takeoverDateObj.month}.{takeoverDateObj.day}
                 </div>
               </div>
 
+              {/* 인계사유 Row */}
               <div className="border-b border-black py-1.5 px-2 flex items-center" style={{ fontSize: '11pt' }}>
                 <span className="font-bold mr-4" style={{ fontSize: '10pt' }}>인계사유 :</span>
-                <span style={{ fontSize: '10pt' }}>{data.handoverData?.handoverReason || '사직으로 인한 활동지원 급여제공 업무 인계'}</span>
+                <span style={{ fontSize: '10pt' }}>{data.handoverData?.handoverReason || '사직으로 인한 장애인활동지원 급여제공 업무 인계'}</span>
               </div>
             </div>
 

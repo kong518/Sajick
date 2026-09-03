@@ -108,7 +108,7 @@ export const AdminSubmissionList: React.FC<AdminSubmissionListProps> = ({
     // 인계자: 퇴사자가 인수인계서를 안 썼으면 item.name을 기본값으로 두고, 담당자가 수정 가능하도록
     setHandoverPersonName(item.handoverData?.handoverPersonName || item.name || '');
     setHandoverPersonDept(
-      item.handoverData?.handoverPersonDept || item.department || '사회서비스지원팀(활동지원사)'
+      item.handoverData?.handoverPersonDept || '사회서비스지원팀'
     );
     setHandoverDate(item.handoverData?.handoverDate || item.resignationDate || item.formDate || '');
 
