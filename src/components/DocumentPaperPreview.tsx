@@ -111,18 +111,25 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
                       />
                     ) : null}
                   </td>
-                  <td className="border border-black p-1 text-center align-middle font-sans text-slate-800 text-xs relative h-16" style={{ width: '80px' }}>
-                    {data.managerApproval?.teamLeaderSignature ? (
-                      <img
-                        src={data.managerApproval.teamLeaderSignature}
-                        alt="팀장 전결"
-                        className="max-h-12 max-w-full mx-auto object-contain"
-                        style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                        referrerPolicy="no-referrer"
-                      />
-                    ) : (
-                      <div className="text-[11px] font-medium text-slate-700" style={{ fontSize: '12pt', whiteSpace: 'nowrap' }}>전결</div>
-                    )}
+                  <td className="border border-black p-1 text-center font-sans text-slate-800 text-xs relative h-16 align-top" style={{ width: '80px' }}>
+                    <div className="flex flex-col items-center h-full justify-between py-1 box-border">
+                      {/* '전결' badge - always visible and positioned at the top */}
+                      <div className="border border-slate-400 rounded px-1.5 py-0.5 font-bold text-slate-700 bg-slate-50 select-none leading-none tracking-wider scale-95" style={{ fontSize: '10pt', whiteSpace: 'nowrap' }}>
+                        전결
+                      </div>
+                      {/* Signature area - rendered in the remaining space below '전결' */}
+                      <div className="flex-1 flex items-center justify-center w-full min-h-[30px] relative mt-1">
+                        {data.managerApproval?.teamLeaderSignature ? (
+                          <img
+                            src={data.managerApproval.teamLeaderSignature}
+                            alt="팀장 전결"
+                            className="max-h-8 max-w-full mx-auto object-contain pointer-events-none"
+                            style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                            referrerPolicy="no-referrer"
+                          />
+                        ) : null}
+                      </div>
+                    </div>
                   </td>
                 </tr>
               </tbody>
