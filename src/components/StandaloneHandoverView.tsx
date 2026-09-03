@@ -1035,7 +1035,7 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
               ※ 이용자(수급자) 성명 및 주소/연락처는 개인정보 보호를 위해 지원사가 작성하지 않고, 복지관 담당자가 아래에서 직접 입력 및 관리합니다.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
               <div>
                 <label className="block font-semibold text-slate-700 mb-1">수급자 성명</label>
                 <input
@@ -1050,26 +1050,85 @@ export const StandaloneHandoverView: React.FC<StandaloneHandoverViewProps> = ({
                     }
                     setAdminHandoverData({ ...adminHandoverData, recipients: recs });
                   }}
-                  placeholder="예: 박준혁 (뇌병변장애)"
+                  placeholder="예: 박준혁"
                   className="w-full px-3 py-2 border border-slate-300 rounded font-bold text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block font-semibold text-slate-700 mb-1">수급자 주소 / 연락처</label>
+                <label className="block font-semibold text-slate-700 mb-1">생년월일 / 성별</label>
                 <input
                   type="text"
-                  value={adminHandoverData.recipients?.[0]?.contactOrAddress || ''}
+                  value={adminHandoverData.recipients?.[0]?.birthGender || ''}
                   onChange={(e) => {
                     const recs = [...(adminHandoverData.recipients || [])];
                     if (recs.length === 0) {
-                      recs.push({ id: 'rec_1', recipientName: '', contactOrAddress: e.target.value, serviceDetails: '', precautions: '' });
+                      recs.push({ id: 'rec_1', recipientName: '', contactOrAddress: '', serviceDetails: '', precautions: '', birthGender: e.target.value });
                     } else {
-                      recs[0] = { ...recs[0], contactOrAddress: e.target.value };
+                      recs[0] = { ...recs[0], birthGender: e.target.value };
                     }
                     setAdminHandoverData({ ...adminHandoverData, recipients: recs });
                   }}
-                  placeholder="예: 수원시 팔달구 매산로 123 (010-XXXX-XXXX)"
+                  placeholder="예: 1990.01.01 / 남"
+                  className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">장애유형 / 서비스 구간</label>
+                <input
+                  type="text"
+                  value={adminHandoverData.recipients?.[0]?.typeSection || ''}
+                  onChange={(e) => {
+                    const recs = [...(adminHandoverData.recipients || [])];
+                    if (recs.length === 0) {
+                      recs.push({ id: 'rec_1', recipientName: '', contactOrAddress: '', serviceDetails: '', precautions: '', typeSection: e.target.value });
+                    } else {
+                      recs[0] = { ...recs[0], typeSection: e.target.value };
+                    }
+                    setAdminHandoverData({ ...adminHandoverData, recipients: recs });
+                  }}
+                  placeholder="예: 지체 1급 / 3구간"
+                  className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="block font-semibold text-slate-700 mb-1">주소</label>
+                <input
+                  type="text"
+                  value={adminHandoverData.recipients?.[0]?.address || adminHandoverData.recipients?.[0]?.contactOrAddress || ''}
+                  onChange={(e) => {
+                    const recs = [...(adminHandoverData.recipients || [])];
+                    const currentContact = recs[0]?.contact || '';
+                    if (recs.length === 0) {
+                      recs.push({ id: 'rec_1', recipientName: '', contactOrAddress: e.target.value, serviceDetails: '', precautions: '', address: e.target.value });
+                    } else {
+                      recs[0] = { ...recs[0], address: e.target.value, contactOrAddress: e.target.value + (currentContact ? ` (${currentContact})` : '') };
+                    }
+                    setAdminHandoverData({ ...adminHandoverData, recipients: recs });
+                  }}
+                  placeholder="예: 수원시 팔달구 매산로 123"
+                  className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold text-slate-700 mb-1">연락처</label>
+                <input
+                  type="text"
+                  value={adminHandoverData.recipients?.[0]?.contact || ''}
+                  onChange={(e) => {
+                    const recs = [...(adminHandoverData.recipients || [])];
+                    const currentAddress = recs[0]?.address || recs[0]?.contactOrAddress || '';
+                    if (recs.length === 0) {
+                      recs.push({ id: 'rec_1', recipientName: '', contactOrAddress: ` (${e.target.value})`, serviceDetails: '', precautions: '', contact: e.target.value });
+                    } else {
+                      recs[0] = { ...recs[0], contact: e.target.value, contactOrAddress: currentAddress + ` (${e.target.value})` };
+                    }
+                    setAdminHandoverData({ ...adminHandoverData, recipients: recs });
+                  }}
+                  placeholder="예: 010-XXXX-XXXX"
                   className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none"
                 />
               </div>

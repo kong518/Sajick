@@ -67,6 +67,10 @@ export const AdminSubmissionList: React.FC<AdminSubmissionListProps> = ({
   const [handoverReason, setHandoverReason] = useState('');
   const [recipientName, setRecipientName] = useState('');
   const [recipientContact, setRecipientContact] = useState('');
+  const [birthGender, setBirthGender] = useState('');
+  const [typeSection, setTypeSection] = useState('');
+  const [address, setAddress] = useState('');
+  const [contact, setContact] = useState('');
 
   // 2. 인계 인수 업무사항
   const [serviceDetails, setServiceDetails] = useState('');
@@ -141,6 +145,10 @@ export const AdminSubmissionList: React.FC<AdminSubmissionListProps> = ({
     const firstRec = item.handoverData?.recipients?.[0];
     setRecipientName(firstRec?.recipientName || '');
     setRecipientContact(firstRec?.contactOrAddress || '');
+    setBirthGender(firstRec?.birthGender || '');
+    setTypeSection(firstRec?.typeSection || '');
+    setAddress(firstRec?.address || firstRec?.contactOrAddress || '');
+    setContact(firstRec?.contact || '');
 
     // 2. 업무사항 및 유의사항
     setServiceDetails(firstRec?.serviceDetails || '');
@@ -176,6 +184,10 @@ export const AdminSubmissionList: React.FC<AdminSubmissionListProps> = ({
         contactOrAddress: recipientContact,
         serviceDetails,
         precautions,
+        birthGender,
+        typeSection,
+        address,
+        contact,
       });
     } else {
       updatedRecs[0] = {
@@ -184,6 +196,10 @@ export const AdminSubmissionList: React.FC<AdminSubmissionListProps> = ({
         contactOrAddress: recipientContact,
         serviceDetails,
         precautions,
+        birthGender,
+        typeSection,
+        address,
+        contact,
       };
     }
 
@@ -272,6 +288,10 @@ export const AdminSubmissionList: React.FC<AdminSubmissionListProps> = ({
               contactOrAddress: recipientContact,
               serviceDetails,
               precautions,
+              birthGender,
+              typeSection,
+              address,
+              contact,
             },
           ],
 
@@ -902,28 +922,70 @@ export const AdminSubmissionList: React.FC<AdminSubmissionListProps> = ({
                           />
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs bg-slate-50 p-3.5 rounded-lg border border-slate-200 font-sans">
                           <div>
                             <label className="block font-semibold text-slate-700 mb-1">
-                              수급자 성명 <span className="text-slate-400 font-normal">(수급자성명 란)</span>
+                              수급자 성명
                             </label>
                             <input
                               type="text"
                               value={recipientName}
                               onChange={(e) => setRecipientName(e.target.value)}
-                              placeholder="예: 이용자 성명 (장애유형 등)"
+                              placeholder="예: 이용자 성명"
                               className="w-full px-3 py-2 border border-slate-300 rounded font-bold text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white"
                             />
                           </div>
                           <div>
                             <label className="block font-semibold text-slate-700 mb-1">
-                              수급자 주소 / 연락처 <span className="text-slate-400 font-normal">(주소/연락처 란)</span>
+                              생년월일 / 성별
                             </label>
                             <input
                               type="text"
-                              value={recipientContact}
-                              onChange={(e) => setRecipientContact(e.target.value)}
-                              placeholder="예: 수원시 권선구 매산로 123 (010-XXXX-XXXX)"
+                              value={birthGender}
+                              onChange={(e) => setBirthGender(e.target.value)}
+                              placeholder="예: 1990.01.01 / 남"
+                              className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block font-semibold text-slate-700 mb-1">
+                              장애유형 / 서비스 구간
+                            </label>
+                            <input
+                              type="text"
+                              value={typeSection}
+                              onChange={(e) => setTypeSection(e.target.value)}
+                              placeholder="예: 지체 1급 / 3구간"
+                              className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white"
+                            />
+                          </div>
+                          <div className="sm:col-span-2">
+                            <label className="block font-semibold text-slate-700 mb-1">
+                              주소
+                            </label>
+                            <input
+                              type="text"
+                              value={address}
+                              onChange={(e) => {
+                                setAddress(e.target.value);
+                                setRecipientContact(e.target.value + (contact ? ` (${contact})` : ''));
+                              }}
+                              placeholder="예: 수원시 권선구 매산로 123"
+                              className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white"
+                            />
+                          </div>
+                          <div>
+                            <label className="block font-semibold text-slate-700 mb-1">
+                              연락처
+                            </label>
+                            <input
+                              type="text"
+                              value={contact}
+                              onChange={(e) => {
+                                setContact(e.target.value);
+                                setRecipientContact((address || '') + ` (${e.target.value})`);
+                              }}
+                              placeholder="예: 010-1234-5678"
                               className="w-full px-3 py-2 border border-slate-300 rounded text-slate-900 focus:ring-2 focus:ring-blue-600 focus:outline-none bg-white"
                             />
                           </div>

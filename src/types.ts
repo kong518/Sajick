@@ -4,6 +4,10 @@ export interface HandoverRecipient {
   contactOrAddress: string; // 주소 / 연락처 (담당자 기재)
   serviceDetails: string; // 인계·인수할 업무사항 (급여제공 내용 등, 서비스 제공시간 자세하게)
   precautions: string; // 서비스 제공시 유의사항 및 참고사항
+  birthGender?: string; // 생년월일/성별
+  typeSection?: string; // 장애유형/서비스 구간
+  address?: string; // 주소
+  contact?: string; // 연락처
 }
 
 export interface ResignationFormData {

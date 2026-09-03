@@ -289,129 +289,141 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
     </div>
   );
 
-  const renderPage3 = () => (
-    <div
-      id="print-page-3"
-      className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-[20mm] flex flex-col justify-stretch shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-[20mm] w-[210mm] h-[297mm] min-h-[297mm] max-h-[297mm] box-border text-[12px] leading-normal"
-      style={{ fontFamily: HAMCHOROM_BATANG_FONT }}
-    >
-      {/* Narrow Black Border Box placed 20mm inward */}
-      <div className="border-[1.5px] border-black p-[8mm] h-full w-full flex flex-col justify-between box-border flex-1">
-        {/* Top Part: Title and Tables */}
-        <div>
-          {/* Title */}
-          <div className="text-center pt-2 mb-4">
-            <div className="inline-block pb-1.5 border-b-[2.5px] border-black px-12">
-              <h1 className="font-bold tracking-[0.4em] indent-[0.4em] text-slate-950 font-serif" style={{ fontSize: '16pt' }}>
-                업무 인계·인수서
-              </h1>
+  const renderPage3 = () => {
+    const recipient = data.handoverData?.recipients?.[0] || {
+      recipientName: '',
+      contactOrAddress: '',
+      serviceDetails: '',
+      precautions: ''
+    };
+
+    return (
+      <div
+        id="print-page-3"
+        className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-[15mm] flex flex-col justify-stretch shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-[15mm] w-[210mm] h-[297mm] min-h-[297mm] max-h-[297mm] box-border text-[11px] leading-normal"
+        style={{ fontFamily: HAMCHOROM_BATANG_FONT }}
+      >
+        {/* Title */}
+        <div className="text-center pt-1 mb-3">
+          <h1 className="font-bold tracking-[0.5em] indent-[0.5em] text-slate-950 font-serif" style={{ fontSize: '18pt' }}>
+            업무 인계·인수서
+          </h1>
+        </div>
+
+        {/* Outer Border Box wrapping all 5 sections */}
+        <div className="border border-black p-3 flex-1 flex flex-col justify-between box-border overflow-hidden">
+          
+          {/* Section 1: 서비스 대상자 */}
+          <div>
+            <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
+              <span className="font-sans">□</span> 서비스 대상자
             </div>
-          </div>
-
-          {/* Section 1: 인적사항 - Structured exactly like 1.png with Perfect Grid Alignment */}
-          <div className="mb-2 font-sans">
-            <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>1. 인적사항</div>
-            <div className="border-t border-black mb-1">
-              {/* 인계자 Row */}
-              <div className="grid grid-cols-[12%_35%_23%_30%] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
-                <div className="font-bold" style={{ fontSize: '11pt' }}>인 계 자 :</div>
-                <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.handoverPersonDept || '사회서비스지원팀'}</div>
-                <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.handoverPersonName || data.name}</div>
-                <div className="text-right pr-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
-                  인계일&nbsp;&nbsp;{handoverDateObj.year}.{handoverDateObj.month}.{handoverDateObj.day}
-                </div>
-              </div>
-
-              {/* 인수자 Row */}
-              <div className="grid grid-cols-[12%_35%_23%_30%] items-center border-b border-black py-1.5 px-2" style={{ fontSize: '11pt' }}>
-                <div className="font-bold" style={{ fontSize: '11pt' }}>인 수 자 :</div>
-                <div style={{ fontSize: '11pt' }}>소 속&nbsp;&nbsp;{data.handoverData?.takeoverPersonDept || '사회서비스지원팀'}</div>
-                <div style={{ fontSize: '11pt' }}>성 명&nbsp;&nbsp;{data.handoverData?.takeoverPersonName || '전담관리인력'}</div>
-                <div className="text-right pr-4 whitespace-nowrap" style={{ fontSize: '11pt' }}>
-                  인수일&nbsp;&nbsp;{takeoverDateObj.year}.{takeoverDateObj.month}.{takeoverDateObj.day}
-                </div>
-              </div>
-
-              {/* 인계사유 Row */}
-              <div className="border-b border-black py-1.5 px-2 flex items-center" style={{ fontSize: '11pt' }}>
-                <span className="font-bold mr-4" style={{ fontSize: '10pt' }}>인계사유 :</span>
-                <span style={{ fontSize: '10pt' }}>{data.handoverData?.handoverReason || '사직으로 인한 장애인활동지원 급여제공 업무 인계'}</span>
-              </div>
-            </div>
-
-            {/* Custom 4-Column Table for 수급자성명 and 주소 / 연락처 */}
-            <table className="w-full border-collapse border border-black text-center mt-2" style={{ fontSize: '10pt' }}>
+            <table className="w-full border-collapse border border-black text-center text-slate-950 mb-3" style={{ fontSize: '9.5pt' }}>
               <tbody>
-                <tr>
-                  <td className="border border-black bg-white py-1.5 px-2 font-bold text-slate-900" style={{ fontSize: '10pt', width: '20%' }}>
-                    수급자성명
+                <tr className="h-7">
+                  <td className="border border-black bg-slate-100/80 font-bold" style={{ width: '12%' }}>성명</td>
+                  <td className="border border-black" style={{ width: '18%' }}>{recipient.recipientName || ''}</td>
+                  <td className="border border-black bg-slate-100/80 font-bold" style={{ width: '22%' }}>생년월일/성별</td>
+                  <td className="border border-black" style={{ width: '20%' }}>{recipient.birthGender || ''}</td>
+                  <td className="border border-black bg-slate-100/80 font-bold" style={{ width: '18%' }}>장애유형/<br/>서비스 구간</td>
+                  <td className="border border-black" style={{ width: '10%' }}>{recipient.typeSection || ''}</td>
+                </tr>
+                <tr className="h-7">
+                  <td className="border border-black bg-slate-100/80 font-bold">주소</td>
+                  <td className="border border-black text-left px-2" colSpan={3}>
+                    {recipient.address || recipient.contactOrAddress || ''}
                   </td>
-                  <td className="border border-black py-1.5 px-3 text-left text-slate-800 font-semibold" style={{ fontSize: '10pt', width: '25%' }}>
-                    {data.handoverData?.recipients?.[0]?.recipientName || ''}
-                  </td>
-                  <td className="border border-black bg-white py-1.5 px-2 font-bold text-slate-900" style={{ fontSize: '10pt', width: '20%' }}>
-                    주소 / 연락처
-                  </td>
-                  <td className="border border-black py-1.5 px-3 text-left text-slate-800" style={{ fontSize: '10pt', width: '35%' }}>
-                    {data.handoverData?.recipients?.[0]?.contactOrAddress || ''}
-                  </td>
+                  <td className="border border-black bg-slate-100/80 font-bold">연락처</td>
+                  <td className="border border-black px-1">{recipient.contact || ''}</td>
                 </tr>
               </tbody>
             </table>
-            <div className="text-left text-slate-600 mt-1 pl-1" style={{ fontSize: '11pt' }}>
-              · 인계자는 전담관리인력이나 전임 활동지원인력 가능
-            </div>
           </div>
 
-          {/* Section 2: 인계 인수 업무사항 */}
-          <div className="mb-2 font-sans">
-            <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>2. 인계 인수 업무사항</div>
-            <table className="w-full border-collapse border border-black text-xs table-fixed" style={{ fontSize: '10pt' }}>
-              <thead>
-                <tr className="bg-white text-center text-slate-900 font-bold">
-                  <th className="border border-black py-1.5 px-2 w-1/2" style={{ fontSize: '10pt' }}>
-                    인계 · 인수할 업무사항(급여제공 내용 등)
-                  </th>
-                  <th className="border border-black py-1.5 px-2 w-1/2" style={{ fontSize: '10pt' }}>
-                    서비스제공시 유의 사항 및 중요 문제점
-                  </th>
-                </tr>
-              </thead>
+          {/* Section 2: 서비스 업무 인계·인수사항 */}
+          <div>
+            <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
+              <span className="font-sans">□</span> 서비스 업무 인계·인수사항
+            </div>
+            <table className="w-full border-collapse border border-black text-slate-950 mb-3" style={{ fontSize: '9.5pt' }}>
               <tbody>
-                <tr>
-                  <td className="border border-black p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
-                    <div className="text-[10px] text-slate-400 font-medium mb-1 print:hidden" style={{ fontSize: '10pt' }}>※ 서비스 제공시간(자세하게)</div>
-                    {data.handoverData?.recipients?.[0]?.serviceDetails || ''}
+                <tr className="h-7 text-center">
+                  <td className="border border-black bg-slate-100/80 font-bold" style={{ width: '12%' }}>인계자</td>
+                  <td className="border border-black" style={{ width: '38%' }}>{data.handoverData?.handoverPersonName || data.name}</td>
+                  <td className="border border-black text-left px-4 font-normal" style={{ width: '50%' }}>
+                    (인계일) &nbsp;&nbsp;&nbsp;&nbsp;
+                    {handoverDateObj.year ? (
+                      <span>{handoverDateObj.year} . {handoverDateObj.month} . {handoverDateObj.day}</span>
+                    ) : (
+                      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.</span>
+                    )}
                   </td>
-                  <td className="border border-black p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
-                    <div className="text-[10px] text-slate-400 font-medium mb-1 print:hidden" style={{ fontSize: '10pt' }}>※ 반드시 작성</div>
-                    {data.handoverData?.recipients?.[0]?.precautions || ''}
+                </tr>
+                <tr className="h-7 text-center">
+                  <td className="border border-black bg-slate-100/80 font-bold">인수자</td>
+                  <td className="border border-black">{data.handoverData?.takeoverPersonName || '후임 활동지원사'}</td>
+                  <td className="border border-black text-left px-4 font-normal">
+                    (인수일) &nbsp;&nbsp;&nbsp;&nbsp;
+                    {takeoverDateObj.year ? (
+                      <span>{takeoverDateObj.year} . {takeoverDateObj.month} . {takeoverDateObj.day}</span>
+                    ) : (
+                      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.</span>
+                    )}
+                  </td>
+                </tr>
+                <tr className="h-7">
+                  <td className="border border-black bg-slate-100/80 font-bold text-center">인계사유</td>
+                  <td className="border border-black text-left px-2" colSpan={2}>
+                    {data.handoverData?.handoverReason || '사직으로 인한 장애인활동지원 급여제공 업무 인계'}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          {/* Section 3: 진행 및 미결사항 */}
-          <div className="mb-2 font-sans">
-            <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>3. 진행 및 미결사항</div>
-            <table className="w-full border-collapse border border-black text-xs table-fixed" style={{ fontSize: '10pt' }}>
+          {/* Section 3: 인계·인수 업무사항 */}
+          <div className="flex-1 flex flex-col justify-start mb-2">
+            <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
+              <span className="font-sans">○</span> 인계·인수 업무사항
+            </div>
+            <table className="w-full border-collapse border border-black text-slate-950 flex-1 min-h-[140px]" style={{ fontSize: '9.5pt' }}>
               <thead>
-                <tr className="bg-white text-center text-slate-900 font-bold">
-                  <th className="border border-black py-1.5 px-2 w-1/2 tracking-wider" style={{ fontSize: '10pt' }}>
-                    진&nbsp;&nbsp;&nbsp;&nbsp;행&nbsp;&nbsp;&nbsp;&nbsp;사&nbsp;&nbsp;&nbsp;&nbsp;항
-                  </th>
-                  <th className="border border-black py-1.5 px-2 w-1/2 tracking-wider" style={{ fontSize: '10pt' }}>
-                    미&nbsp;&nbsp;&nbsp;&nbsp;결&nbsp;&nbsp;&nbsp;&nbsp;사&nbsp;&nbsp;&nbsp;&nbsp;항
-                  </th>
+                <tr className="bg-slate-100/80 text-center font-bold h-7">
+                  <th className="border border-black w-1/2">인계·인수 업무사항</th>
+                  <th className="border border-black w-1/2">서비스 제공 시 유의사항</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-black p-2 align-top h-12 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800" style={{ height: '140px' }}>
+                    {recipient.serviceDetails || ''}
+                  </td>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800" style={{ height: '140px' }}>
+                    {recipient.precautions || ''}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Section 4: 진행 및 미결사항 */}
+          <div className="mb-2">
+            <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
+              <span className="font-sans">○</span> 진행 및 미결사항
+            </div>
+            <table className="w-full border-collapse border border-black text-slate-950" style={{ fontSize: '9.5pt' }}>
+              <thead>
+                <tr className="bg-slate-100/80 text-center font-bold h-7">
+                  <th className="border border-black w-1/2">진행사항</th>
+                  <th className="border border-black w-1/2">미결사항</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800" style={{ height: '55px' }}>
                     {data.handoverData?.inProgressItems || ''}
                   </td>
-                  <td className="border border-black p-2 align-top h-12 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800" style={{ height: '55px' }}>
                     {data.handoverData?.pendingItems || ''}
                   </td>
                 </tr>
@@ -419,121 +431,129 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
             </table>
           </div>
 
-          {/* Section 4: 인계 인수서류 및 비품 목록 */}
-          <div className="mb-2 font-sans">
-            <div className="font-bold text-slate-900 mb-1 font-serif" style={{ fontSize: '11pt' }}>4. 인계 인수서류 및 비품 목록</div>
-            <table className="w-full border-collapse border border-black text-xs table-fixed" style={{ fontSize: '10pt' }}>
+          {/* Section 5: 인계·인수 서류 등 */}
+          <div>
+            <div className="font-bold text-slate-950 mb-1 flex items-center gap-1" style={{ fontSize: '10.5pt' }}>
+              <span className="font-sans">○</span> 인계·인수 서류 등
+            </div>
+            <table className="w-full border-collapse border border-black text-slate-950" style={{ fontSize: '9.5pt' }}>
               <thead>
-                <tr className="bg-white text-center text-slate-900 font-bold">
-                  <th className="border border-black py-1.5 px-2 w-1/2 tracking-widest" style={{ fontSize: '10pt' }}>
-                    서&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;류
-                  </th>
-                  <th className="border border-black py-1.5 px-2 w-1/2 tracking-widest" style={{ fontSize: '10pt' }}>
-                    비&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;품
-                  </th>
+                <tr className="bg-slate-100/80 text-center font-bold h-7">
+                  <th className="border border-black w-1/2">서류</th>
+                  <th className="border border-black w-1/2">기타</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-black p-2 align-top h-14 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800" style={{ height: '40px' }}>
                     {data.handoverData?.documentsList || ''}
                   </td>
-                  <td className="border border-black p-2 align-top h-14 whitespace-pre-wrap leading-relaxed text-slate-800" style={{ fontSize: '10pt' }}>
+                  <td className="border border-black p-2 align-top whitespace-pre-wrap leading-relaxed text-slate-800" style={{ height: '40px' }}>
                     {data.handoverData?.equipmentList || ''}
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+
         </div>
 
-        {/* Bottom Part: Footer text, Date, Signatures, Logo */}
-        <div className="w-full">
-          {/* Footer Statement */}
-          <div className="mt-2 text-left pl-2 sm:pl-3 font-serif">
-            <p className="font-normal text-slate-900" style={{ fontSize: '11pt' }}>
-              상기 사항을 정히 인계 인수함.
-            </p>
+        {/* Bottom Part: Footer Statement, Date, Signatures, Logo */}
+        <div className="w-full mt-3">
+          {/* Statement */}
+          <div className="text-left font-bold text-slate-950 pr-4" style={{ fontSize: '11.5pt' }}>
+            위와 같이 인계·인수합니다.
           </div>
 
           {/* Date */}
-          <div className="text-center font-serif font-normal text-slate-900 my-4 tracking-widest" style={{ fontSize: '11pt' }}>
-            <span>{handoverConfirmDate.year}</span>년&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span>{handoverConfirmDate.month}</span>월&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span>{handoverConfirmDate.day}</span>일
+          <div className="text-right font-serif font-bold text-slate-950 my-1 pr-12 tracking-wider" style={{ fontSize: '12pt' }}>
+            <span>{handoverConfirmDate.year || 'OOOO'}</span>년&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>{handoverConfirmDate.month || 'OO'}</span>월&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>{handoverConfirmDate.day || 'OO'}</span>일
           </div>
 
-          {/* Signatures */}
-          <div className="grid grid-cols-3 gap-6 font-serif font-normal px-2 my-4" style={{ fontSize: '11pt' }}>
-            {/* 인계자 */}
-            <div className="flex items-center justify-between py-1" style={{ fontSize: '11pt' }}>
-              <span className="text-slate-900 font-bold tracking-wider shrink-0" style={{ fontSize: '11pt' }}>인계자</span>
-              <span className="text-slate-900 tracking-wider mx-auto font-medium truncate px-1" style={{ fontSize: '11pt' }}>
-                {data.handoverData?.handoverPersonName || data.name || ''}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7 shrink-0">
-                <span className="text-slate-800 font-serif text-xs select-none font-bold" style={{ fontSize: '11pt' }}>(인)</span>
-                {(data.handoverData?.handoverSignature || data.applicantSignature) && (
-                  <img
-                    src={data.handoverData?.handoverSignature || data.applicantSignature}
-                    alt="인계자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
-              </div>
+          {/* Role mapping and signatures */}
+          <div className="flex justify-between items-start mt-2 px-1">
+            {/* Left Role Explanations */}
+            <div className="space-y-1 text-slate-700" style={{ fontSize: '9pt' }}>
+              <p>*인계자 : 전임 활동지원사</p>
+              <p>*인수자 : 후임 활동지원사</p>
+              <p>*확인자 : 전담관리인력 또는 관리책임자</p>
             </div>
 
-            {/* 인수자 */}
-            <div className="flex items-center justify-between py-1" style={{ fontSize: '11pt' }}>
-              <span className="text-slate-900 font-bold tracking-wider shrink-0" style={{ fontSize: '11pt' }}>인수자</span>
-              <span className="text-slate-900 tracking-wider mx-auto font-medium truncate px-1" style={{ fontSize: '11pt' }}>
-                {data.handoverData?.takeoverPersonName || '전담관리인력'}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7 shrink-0">
-                <span className="text-slate-800 font-serif text-xs select-none font-bold" style={{ fontSize: '11pt' }}>(인)</span>
-                {data.handoverData?.takeoverSignature && (
-                  <img
-                    src={data.handoverData.takeoverSignature}
-                    alt="인수자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+            {/* Right Interactive Signature Blocks */}
+            <div className="w-[240px] space-y-1.5" style={{ fontSize: '10pt' }}>
+              {/* 인계자 */}
+              <div className="flex items-center justify-between">
+                <span className="text-slate-900 font-bold w-12">인계자</span>
+                <span className="text-slate-900 font-semibold truncate text-center flex-1 px-1">
+                  {data.handoverData?.handoverPersonName || data.name || ''}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-14 h-6 text-slate-400 shrink-0 select-none">
+                  <span>(서명)</span>
+                  {(data.handoverData?.handoverSignature || data.applicantSignature) && (
+                    <img
+                      src={data.handoverData?.handoverSignature || data.applicantSignature}
+                      alt="인계자 서명"
+                      className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* 확인자 */}
-            <div className="flex items-center justify-between py-1" style={{ fontSize: '11pt' }}>
-              <span className="text-slate-900 font-bold tracking-wider shrink-0" style={{ fontSize: '11pt' }}>확인자</span>
-              <span className="text-slate-900 tracking-wider mx-auto font-medium truncate px-1" style={{ fontSize: '11pt' }}>
-                {data.handoverData?.verifierName || data.managerApproval?.teamLeaderName || '팀장'}
-              </span>
-              <div className="relative inline-flex items-center justify-center w-10 h-7 shrink-0">
-                <span className="text-slate-800 font-serif text-xs select-none font-bold" style={{ fontSize: '11pt' }}>(인)</span>
-                {(data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature) && (
-                  <img
-                    src={data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature}
-                    alt="확인자 서명"
-                    className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
-                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                    referrerPolicy="no-referrer"
-                  />
-                )}
+              {/* 인수자 */}
+              <div className="flex items-center justify-between">
+                <span className="text-slate-900 font-bold w-12">인수자</span>
+                <span className="text-slate-900 font-semibold truncate text-center flex-1 px-1">
+                  {data.handoverData?.takeoverPersonName || ''}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-14 h-6 text-slate-400 shrink-0 select-none">
+                  <span>(서명)</span>
+                  {data.handoverData?.takeoverSignature && (
+                    <img
+                      src={data.handoverData.takeoverSignature}
+                      alt="인수자 서명"
+                      className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* 확인자 */}
+              <div className="flex items-center justify-between">
+                <span className="text-slate-900 font-bold w-12">확인자</span>
+                <span className="text-slate-900 font-semibold truncate text-center flex-1 px-1">
+                  {data.handoverData?.verifierName || data.managerApproval?.teamLeaderName || ''}
+                </span>
+                <div className="relative inline-flex items-center justify-center w-14 h-6 text-slate-400 shrink-0 select-none">
+                  <span>(서명)</span>
+                  {(data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature) && (
+                    <img
+                      src={data.handoverData?.verifierSignature || data.managerApproval?.teamLeaderSignature}
+                      alt="확인자 서명"
+                      className="absolute inset-0 m-auto max-h-6 max-w-full object-contain pointer-events-none"
+                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Welfare Center Official Logo */}
-          <div className="pt-4 pb-2 flex items-center justify-center">
+          {/* Logo */}
+          <div className="pt-3 pb-1 flex items-center justify-center">
             <SuwonWelfareLogo size="md" />
           </div>
         </div>
+
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div ref={containerRef} className="print-container w-full space-y-12 print:space-y-0">
