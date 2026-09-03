@@ -55,6 +55,7 @@
     height: 1123px !important;
     min-height: 1123px !important;
     max-height: 1123px !important;
+    padding: 20mm !important;
     box-sizing: border-box !important;
     margin: 0 auto !important;
   }
@@ -161,7 +162,7 @@
     min-height: 297mm !important;
     max-height: 297mm !important;
     margin: 0 auto !important;
-    padding: 15mm !important;
+    padding: 20mm !important;
     border: none !important;
     box-shadow: none !important;
     page-break-after: avoid !important;

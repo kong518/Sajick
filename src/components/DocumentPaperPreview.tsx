@@ -84,129 +84,129 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
   const renderPage1 = () => (
     <div
       id="print-page-1"
-      className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-12 md:p-16 flex flex-col justify-between shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-12 w-[210mm] min-h-[297mm] box-border text-[15px] leading-relaxed"
+      className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-[20mm] flex flex-col justify-stretch shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-[20mm] w-[210mm] h-[297mm] min-h-[297mm] max-h-[297mm] box-border text-[15px] leading-relaxed"
       style={{ fontFamily: HAMCHOROM_BATANG_FONT }}
     >
-      {/* Top Section: Approval box & Title */}
-      <div className="w-full">
-        {/* Approval box at top right */}
-        <div className="flex justify-end mb-6">
-          <table className="border-collapse border border-black text-center text-xs font-sans">
-            <tbody>
-              <tr>
-                <th className="border border-black px-4 py-1.5 font-medium bg-slate-50 w-16">담당</th>
-                <th className="border border-black px-4 py-1.5 font-medium bg-slate-50 w-16">팀장</th>
-              </tr>
-              <tr className="h-16">
-                <td className="border border-black p-1 text-center align-middle relative w-16 h-16">
-                  {data.managerApproval?.managerSignature ? (
-                    <img
-                      src={data.managerApproval.managerSignature}
-                      alt="담당 결재"
-                      className="max-h-12 max-w-full mx-auto object-contain"
-                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : null}
-                </td>
-                <td className="border border-black p-1 text-center align-top font-sans text-slate-800 text-xs relative w-16 h-16">
-                  {data.managerApproval?.teamLeaderSignature ? (
-                    <img
-                      src={data.managerApproval.teamLeaderSignature}
-                      alt="팀장 전결"
-                      className="max-h-12 max-w-full mx-auto object-contain"
-                      style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <div className="pt-0.5 text-[11px] font-medium text-slate-700">전결</div>
-                  )}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* Title */}
-        <div className="text-center my-6">
-          <h1 className="text-3xl font-bold tracking-[1.2em] indent-[1.2em] text-slate-950 font-serif">
-            사 직 서
-          </h1>
-        </div>
-
-        {/* Applicant Info Section (소속, 성명, 생년월일, 입사일자, 사직사유) */}
-        <div className="mt-8 space-y-3 px-4 text-[15px] text-slate-900 font-sans">
-          <div className="flex items-center">
-            <span className="w-24 font-medium text-slate-800">소&nbsp;&nbsp;&nbsp;속 :</span>
-            <span className="font-normal text-slate-900">{data.department || '사회서비스지원팀(활동지원사)'}</span>
+      {/* Narrow Black Border Box placed 20mm inward */}
+      <div className="border-[1.5px] border-black p-[8mm] h-full w-full flex flex-col justify-between box-border flex-1">
+        {/* Top Section: Approval box & Title */}
+        <div className="w-full">
+          {/* Approval box at top right */}
+          <div className="flex justify-end mb-6">
+            <table className="border-collapse border border-black text-center text-xs font-sans">
+              <tbody>
+                <tr>
+                  <th className="border border-black px-4 py-1.5 font-medium bg-slate-50 w-16">담당</th>
+                  <th className="border border-black px-4 py-1.5 font-medium bg-slate-50 w-16">팀장</th>
+                </tr>
+                <tr className="h-16">
+                  <td className="border border-black p-1 text-center align-middle relative w-16 h-16">
+                    {data.managerApproval?.managerSignature ? (
+                      <img
+                        src={data.managerApproval.managerSignature}
+                        alt="담당 결재"
+                        className="max-h-12 max-w-full mx-auto object-contain"
+                        style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : null}
+                  </td>
+                  <td className="border border-black p-1 text-center align-top font-sans text-slate-800 text-xs relative w-16 h-16">
+                    {data.managerApproval?.teamLeaderSignature ? (
+                      <img
+                        src={data.managerApproval.teamLeaderSignature}
+                        alt="팀장 전결"
+                        className="max-h-12 max-w-full mx-auto object-contain"
+                        style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <div className="pt-0.5 text-[11px] font-medium text-slate-700">전결</div>
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div className="flex items-center">
-            <span className="w-24 font-medium text-slate-800">성&nbsp;&nbsp;&nbsp;명 :</span>
-            <span className="font-normal text-slate-900">{data.name || '___________'}</span>
-          </div>
-          <div className="flex items-center">
-            <span className="w-24 font-medium text-slate-800">생년월일 :</span>
-            <span className="font-normal text-slate-900">{data.birthDate || '___________________'}</span>
-          </div>
-          <div className="flex items-center">
-            <span className="w-24 font-medium text-slate-800">입사일자 :</span>
-            <span className="font-normal text-slate-900">{data.hireDate || '___________________'}</span>
-          </div>
-          <div className="flex items-center">
-            <span className="w-24 font-medium text-slate-800">사직사유 :</span>
-            <span className="font-normal text-slate-900">
-              {data.resignationReason || '개인사유'}
-              {data.resignationReasonDetail ? ` (${data.resignationReasonDetail})` : ''}
-            </span>
-          </div>
-        </div>
-      </div>
 
-      {/* Middle Body Statement */}
-      <div className="my-8 px-4 text-center w-full">
-        <p className="text-[16px] leading-[2.1] text-slate-950 font-serif">
-          상기 본인은 {reasonText}로 인하여 {resDate.year}년 {resDate.month}월 {resDate.day}일부로 사직코자
-          <br />
-          사직서를 제출하오니 허락하여 주시기 바랍니다.
-        </p>
-      </div>
+          {/* Title */}
+          <div className="text-center my-6">
+            <h1 className="text-3xl font-bold tracking-[1.2em] indent-[1.2em] text-slate-950 font-serif">
+              사 직 서
+            </h1>
+          </div>
 
-      {/* Bottom Submission Date & Signatory (Aligned to right with ends matching) */}
-      <div className="mb-2 w-full">
-        {/* Submission Date: Right Aligned */}
-        <div className="text-[15px] text-slate-900 mb-4 font-serif text-right pr-2">
-          <span className="px-1">{formDate.year}</span>년{' '}
-          <span className="px-1">{formDate.month}</span>월{' '}
-          <span className="px-1">{formDate.day}</span>일
-        </div>
-
-        {/* Signatory: Right Aligned, flush with date */}
-        <div className="flex justify-end items-center pr-2 mb-6">
-          <div className="flex items-center text-[15px]">
-            <span className="font-medium text-slate-900 mr-2">신&nbsp;&nbsp;청&nbsp;&nbsp;인 :</span>
-            <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider">{data.name || '           '}</span>
-            <div className="relative inline-flex items-center justify-center ml-2 w-16 h-8">
-              <span className="text-slate-800 font-serif text-[13px] font-bold select-none tracking-wider">(인)</span>
-              {data.applicantSignature && (
-                <img
-                  src={data.applicantSignature}
-                  alt="신청인 서명"
-                  className="absolute inset-0 m-auto max-h-7 max-w-full object-contain pointer-events-none"
-                  style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                  referrerPolicy="no-referrer"
-                />
-              )}
+          {/* Applicant Info Section (소속, 성명, 생년월일, 입사일자, 사직사유) */}
+          <div className="mt-8 space-y-3 px-4 text-[15px] text-slate-900 font-sans">
+            <div className="flex items-center">
+              <span className="w-24 font-medium text-slate-800">소&nbsp;&nbsp;&nbsp;속 :</span>
+              <span className="font-normal text-slate-900">{data.department || '사회서비스지원팀(활동지원사)'}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="w-24 font-medium text-slate-800">성&nbsp;&nbsp;&nbsp;명 :</span>
+              <span className="font-normal text-slate-900">{data.name || '___________'}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="w-24 font-medium text-slate-800">생년월일 :</span>
+              <span className="font-normal text-slate-900">{data.birthDate || '___________________'}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="w-24 font-medium text-slate-800">입사일자 :</span>
+              <span className="font-normal text-slate-900">{data.hireDate || '___________________'}</span>
+            </div>
+            <div className="flex items-center">
+              <span className="w-24 font-medium text-slate-800">사직사유 :</span>
+              <span className="font-normal text-slate-900">
+                {data.resignationReason || '개인사유'}
+                {data.resignationReasonDetail ? ` (${data.resignationReasonDetail})` : ''}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Recipient & Logo */}
-        <div className="text-center pt-2 space-y-4">
-          <h2 className="text-2xl font-bold tracking-[0.25em] text-slate-950 font-serif">
-            수원시장애인종합복지관 귀중
-          </h2>
-          <div className="flex justify-center pt-2">
-            <SuwonWelfareLogo size="md" />
+        {/* Middle Body Statement */}
+        <div className="my-8 px-4 text-center w-full">
+          <p className="text-[16px] leading-[2.1] text-slate-950 font-serif">
+            상기 본인은 {reasonText}로 인하여 {resDate.year}년 {resDate.month}월 {resDate.day}일부로 사직코자
+            <br />
+            사직서를 제출하오니 허락하여 주시기 바랍니다.
+          </p>
+        </div>
+
+        {/* Bottom Submission Date & Signatory */}
+        <div className="mb-2 w-full">
+          {/* Submission Date: Right Aligned */}
+          <div className="text-[15px] text-slate-900 mb-4 font-serif text-right pr-2">
+            <span className="px-1">{formDate.year}</span>년{' '}
+            <span className="px-1">{formDate.month}</span>월{' '}
+            <span className="px-1">{formDate.day}</span>일
+          </div>
+
+          {/* Signatory: Right Aligned, flush with date */}
+          <div className="flex justify-end items-center pr-2 mb-6">
+            <div className="flex items-center text-[15px]">
+              <span className="font-medium text-slate-900 mr-2">신&nbsp;&nbsp;청&nbsp;&nbsp;인 :</span>
+              <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider">{data.name || '           '}</span>
+              <div className="relative inline-flex items-center justify-center ml-2 w-16 h-8">
+                <span className="text-slate-800 font-serif text-[13px] font-bold select-none tracking-wider">(인)</span>
+                {data.applicantSignature && (
+                  <img
+                    src={data.applicantSignature}
+                    alt="신청인 서명"
+                    className="absolute inset-0 m-auto max-h-7 max-w-full object-contain pointer-events-none"
+                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                    referrerPolicy="no-referrer"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Recipient */}
+          <div className="text-center pt-2">
+            <h2 className="text-2xl font-bold tracking-[0.25em] text-slate-950 font-serif">
+              수원시장애인종합복지관 귀중
+            </h2>
           </div>
         </div>
       </div>
@@ -216,62 +216,62 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
   const renderPage2 = () => (
     <div
       id="print-page-2"
-      className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-12 md:p-16 flex flex-col justify-between shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-12 w-[210mm] min-h-[297mm] box-border text-[15px] leading-relaxed"
+      className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-[20mm] flex flex-col justify-stretch shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-[20mm] w-[210mm] h-[297mm] min-h-[297mm] max-h-[297mm] box-border text-[15px] leading-relaxed"
       style={{ fontFamily: HAMCHOROM_BATANG_FONT }}
     >
-      {/* Title */}
-      <div className="text-center mt-12 mb-8 w-full">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-950 font-serif leading-snug">
-          급여 및 퇴직연금 지급 지연 동의서
-        </h1>
-      </div>
-
-      {/* Statement Body */}
-      <div className="px-6 md:px-8 text-[15px] leading-[2.1] text-slate-950 text-justify w-full my-auto">
-        <p className="indent-6">
-          장애인활동지원사업 특성상 근로 계약서에 명시된 바와 같이 급여가 1일에서 말일까지 근로 후
-          익월 15일에 지급되고 있어 사직서 제출과 관계없이 급여는 익월 15일에 지급되며 퇴직연금은 최종
-          급여지급일 이후 15일 이내({data.consentPensionMonth || ' '}월 30일 이내)에 지급이 지연 처리됨에
-          동의합니다.
-        </p>
-      </div>
-
-      {/* Date & Signatory & Footer */}
-      <div className="mb-4 w-full">
-        {/* Date: Centered */}
-        <div className="text-[15px] text-slate-900 mb-8 font-serif text-center">
-          <span className="px-1">{consentDate.year}</span>년{' '}
-          <span className="px-1">{consentDate.month}</span>월{' '}
-          <span className="px-1">{consentDate.day}</span>일
+      {/* Narrow Black Border Box placed 20mm inward */}
+      <div className="border-[1.5px] border-black p-[8mm] h-full w-full flex flex-col justify-between box-border flex-1">
+        {/* Title */}
+        <div className="text-center mt-12 mb-8 w-full">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-950 font-serif leading-snug">
+            급여 및 퇴직연금 지급 지연 동의서
+          </h1>
         </div>
 
-        {/* Signatory: Right Aligned */}
-        <div className="flex justify-end items-center pr-2 mb-8">
-          <div className="flex items-center text-[15px]">
-            <span className="font-medium text-slate-900 mr-2">동&nbsp;의&nbsp;인 :</span>
-            <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider">{data.name || '           '}</span>
-            <div className="relative inline-flex items-center justify-center ml-2 w-16 h-8">
-              <span className="text-slate-800 font-serif text-[13px] font-bold select-none tracking-wider">(인)</span>
-              {(data.consentSignature || data.applicantSignature) && (
-                <img
-                  src={data.consentSignature || data.applicantSignature}
-                  alt="동의인 서명"
-                  className="absolute inset-0 m-auto max-h-7 max-w-full object-contain pointer-events-none"
-                  style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
-                  referrerPolicy="no-referrer"
-                />
-              )}
+        {/* Statement Body */}
+        <div className="px-6 md:px-8 text-[15px] leading-[2.1] text-slate-950 text-justify w-full my-auto">
+          <p className="indent-6">
+            장애인활동지원사업 특성상 근로 계약서에 명시된 바와 같이 급여가 1일에서 말일까지 근로 후
+            익월 15일에 지급되고 있어 사직서 제출과 관계없이 급여는 익월 15일에 지급되며 퇴직연금은 최종
+            급여지급일 이후 15일 이내({data.consentPensionMonth || ' '}월 30일 이내)에 지급이 지연 처리됨에
+            동의합니다.
+          </p>
+        </div>
+
+        {/* Date & Signatory & Footer */}
+        <div className="mb-4 w-full">
+          {/* Date: Centered */}
+          <div className="text-[15px] text-slate-900 mb-8 font-serif text-center">
+            <span className="px-1">{consentDate.year}</span>년{' '}
+            <span className="px-1">{consentDate.month}</span>월{' '}
+            <span className="px-1">{consentDate.day}</span>일
+          </div>
+
+          {/* Signatory: Right Aligned */}
+          <div className="flex justify-end items-center pr-2 mb-8">
+            <div className="flex items-center text-[15px]">
+              <span className="font-medium text-slate-900 mr-2">동&nbsp;의&nbsp;인 :</span>
+              <span className="font-normal text-slate-900 min-w-[60px] text-right tracking-wider">{data.name || '           '}</span>
+              <div className="relative inline-flex items-center justify-center ml-2 w-16 h-8">
+                <span className="text-slate-800 font-serif text-[13px] font-bold select-none tracking-wider">(인)</span>
+                {(data.consentSignature || data.applicantSignature) && (
+                  <img
+                    src={data.consentSignature || data.applicantSignature}
+                    alt="동의인 서명"
+                    className="absolute inset-0 m-auto max-h-7 max-w-full object-contain pointer-events-none"
+                    style={{ filter: 'brightness(0) contrast(200%)', mixBlendMode: 'multiply' }}
+                    referrerPolicy="no-referrer"
+                  />
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Recipient & Logo */}
-        <div className="text-center pt-4 space-y-4">
-          <h2 className="text-2xl font-bold tracking-[0.25em] text-slate-950 font-serif">
-            수원시장애인종합복지관 귀중
-          </h2>
-          <div className="flex justify-center pt-2">
-            <SuwonWelfareLogo size="md" />
+          {/* Recipient */}
+          <div className="text-center pt-4">
+            <h2 className="text-2xl font-bold tracking-[0.25em] text-slate-950 font-serif">
+              수원시장애인종합복지관 귀중
+            </h2>
           </div>
         </div>
       </div>
@@ -281,10 +281,12 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
   const renderPage3 = () => (
     <div
       id="print-page-3"
-      className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-6 md:p-8 flex flex-col justify-between shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-6 w-[210mm] min-h-[297mm] box-border text-[12.5px] leading-normal"
+      className="document-a4-page font-hamchorom bg-white text-slate-900 mx-auto p-[20mm] flex flex-col justify-stretch shadow-md border border-slate-300 relative print:shadow-none print:border-none print:m-0 print:p-[20mm] w-[210mm] h-[297mm] min-h-[297mm] max-h-[297mm] box-border text-[12px] leading-normal"
       style={{ fontFamily: HAMCHOROM_BATANG_FONT }}
     >
-      <div className="w-full flex-1 flex flex-col justify-between">
+      {/* Narrow Black Border Box placed 20mm inward */}
+      <div className="border-[1.5px] border-black p-[8mm] h-full w-full flex flex-col justify-between box-border flex-1">
+        {/* Top Part: Title and Tables */}
         <div>
           {/* Title */}
           <div className="text-center pt-2 mb-4">
@@ -374,11 +376,11 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
               <tbody>
                 <tr>
                   <td className="border border-black p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800 text-[11px]">
-                    <div className="text-[10px] text-slate-500 font-medium mb-1 print:hidden">※ 서비스 제공시간(자세하게)</div>
+                    <div className="text-[10px] text-slate-400 font-medium mb-1">※ 서비스 제공시간(자세하게)</div>
                     {data.handoverData?.recipients?.[0]?.serviceDetails || ''}
                   </td>
                   <td className="border border-black p-2 align-top h-24 whitespace-pre-wrap leading-relaxed text-slate-800 text-[11px]">
-                    <div className="text-[10px] text-slate-500 font-medium mb-1 print:hidden">※ 반드시 작성</div>
+                    <div className="text-[10px] text-slate-400 font-medium mb-1">※ 반드시 작성</div>
                     {data.handoverData?.recipients?.[0]?.precautions || ''}
                   </td>
                 </tr>
@@ -439,23 +441,26 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
               </tbody>
             </table>
           </div>
+        </div>
 
-          {/* Footer Statement: Left-aligned directly below table 4 as in official form */}
+        {/* Bottom Part: Footer text, Date, Signatures, Logo */}
+        <div className="w-full">
+          {/* Footer Statement */}
           <div className="mt-2 text-left pl-2 sm:pl-3 font-serif">
             <p className="text-xs sm:text-sm font-normal text-slate-900">
               상기 사항을 정히 인계 인수함.
             </p>
           </div>
 
-          {/* Date: Normal weight, centered, refined size */}
+          {/* Date */}
           <div className="text-center font-serif text-xs sm:text-sm font-normal text-slate-900 my-4 tracking-widest">
             <span>{handoverConfirmDate.year}</span>년&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span>{handoverConfirmDate.month}</span>월&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <span>{handoverConfirmDate.day}</span>일
           </div>
 
-          {/* Signatures: 인계자, 인수자, 확인자 in 3 equal columns with normal weight & neat spacing */}
-          <div className="grid grid-cols-3 gap-8 text-[13px] font-serif font-normal px-4 my-4">
+          {/* Signatures */}
+          <div className="grid grid-cols-3 gap-6 text-[13px] font-serif font-normal px-2 my-4">
             {/* 인계자 */}
             <div className="flex items-center justify-between py-1">
               <span className="text-slate-900 font-bold tracking-wider shrink-0">인계자</span>
@@ -516,11 +521,11 @@ export const DocumentPaperPreview: React.FC<DocumentPaperPreviewProps> = ({
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Welfare Center Official Logo - Sharp and Crisp */}
-        <div className="pt-4 pb-2 flex items-center justify-center">
-          <SuwonWelfareLogo size="md" />
+          {/* Welfare Center Official Logo */}
+          <div className="pt-4 pb-2 flex items-center justify-center">
+            <SuwonWelfareLogo size="md" />
+          </div>
         </div>
       </div>
     </div>
